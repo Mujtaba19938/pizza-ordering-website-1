@@ -1,0 +1,140 @@
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Minus, Plus, Trash2 } from "lucide-react"
+import { useCart } from "@/contexts/cart-context"
+import Link from "next/link"
+
+export function CartContent() {
+  const { state, dispatch } = useCart()
+
+  const updateQuantity = (pizzaId: number, size: "small" | "medium" | "large", quantity: number) => {
+    dispatch({ type: "UPDATE_QUANTITY", payload: { pizzaId, size, quantity } })
+  }
+
+  const removeItem = (pizzaId: number, size: "small" | "medium" | "large") => {
+    dispatch({ type: "REMOVE_FROM_CART", payload: { pizzaId, size } })
+  }
+
+  if (state.items.length === 0) {
+    return (
+      <div className="text-center py-16">
+        <div className="text-6xl mb-4">🍕</div>
+        <h2 className="text-2xl font-bold text-[#d62828] mb-4">Your cart is empty</h2>
+        <p className="text-muted-foreground mb-8">Add some delicious pizzas to get started!</p>
+        <Link href="/menu">
+          <Button className="bg-[#d62828] text-white hover:bg-[#b91c1c]">Browse Menu</Button>
+        </Link>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Cart Items */}
+        <div className="lg:col-span-2 space-y-4">
+          {state.items.map((item, index) => (
+            <Card key={`${item.pizza.id}-${item.size}-${index}`} className="p-4">
+              <div className="flex items-center gap-4">
+                <img
+                  src={item.pizza.image || "/placeholder.svg"}
+                  alt={item.pizza.name}
+                  className="w-20 h-20 rounded-lg object-cover"
+                />
+
+                <div className="flex-1">
+                  <h3 className="font-bold text-[#d62828]">{item.pizza.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-2">{item.pizza.description}</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">
+                      Size: {item.size.charAt(0).toUpperCase() + item.size.slice(1)}
+                    </span>
+                    <span className="text-sm text-muted-foreground">•</span>
+                    <span className="text-sm font-bold">${item.price}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => updateQuantity(item.pizza.id, item.size, item.quantity - 1)}
+                    className="h-8 w-8"
+                  >
+                    <Minus className="h-4 w-4" />
+                  </Button>
+                  <span className="w-8 text-center font-semibold">{item.quantity}</span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => updateQuantity(item.pizza.id, item.size, item.quantity + 1)}
+                    className="h-8 w-8"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                <div className="text-right">
+                  <p className="font-bold text-lg">${(item.price * item.quantity).toFixed(2)}</p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeItem(item.pizza.id, item.size)}
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        {/* Order Summary */}
+        <div className="lg:col-span-1">
+          <Card className="sticky top-4">
+            <CardHeader>
+              <CardTitle className="text-[#d62828]">Order Summary</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>${state.total.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Tax</span>
+                <span>${(state.total * 0.08).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Delivery</span>
+                <span>$3.99</span>
+              </div>
+              <hr />
+              <div className="flex justify-between font-bold text-lg">
+                <span>Total</span>
+                <span>${(state.total + state.total * 0.08 + 3.99).toFixed(2)}</span>
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col gap-2">
+              <Link href="/checkout" className="w-full">
+                <Button className="w-full bg-[#d62828] text-white hover:bg-[#b91c1c] font-semibold">
+                  Proceed to Checkout
+                </Button>
+              </Link>
+              <Link href="/menu" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full border-[#d62828] text-[#d62828] hover:bg-[#d62828] hover:text-white bg-transparent"
+                >
+                  Continue Shopping
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
