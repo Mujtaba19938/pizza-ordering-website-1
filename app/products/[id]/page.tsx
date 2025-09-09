@@ -9,9 +9,10 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Navbar } from "@/components/navbar"
-import { Minus, Plus, ArrowLeft } from "lucide-react"
+import { Minus, Plus, ArrowLeft, Check } from "lucide-react"
 import { pizzas } from "@/data/pizzas"
 import { useCart } from "@/contexts/cart-context"
+import { useToast } from "@/hooks/use-toast"
 
 const sizeOptions = [
   { id: "small", label: 'Small (10")', price: 0 },
@@ -40,6 +41,7 @@ export default function ProductDetailsPage() {
   const params = useParams()
   const router = useRouter()
   const { addToCart } = useCart()
+  const { toast } = useToast()
   const [pizza, setPizza] = useState<any>(null)
   const [selectedSize, setSelectedSize] = useState("medium")
   const [selectedCrust, setSelectedCrust] = useState("thin")
@@ -122,6 +124,20 @@ export default function ProductDetailsPage() {
         selectedCrust: crustOptions.find((c) => c.id === selectedCrust)?.label,
       })
     }
+
+    // Show success toast notification
+    toast({
+      title: (
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+            <Check className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-semibold">Pizza Added to Cart!</span>
+        </div>
+      ),
+      description: `${quantity} x ${pizza.name} (${sizeKey}) has been added to your cart.`,
+      className: "border-green-200 bg-green-50 text-green-800",
+    })
   }
 
   return (
