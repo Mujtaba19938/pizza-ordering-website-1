@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
     })
 
     // Calculate total
-    const total = line_items.reduce((acc, item) => acc + item.price_data.unit_amount * item.quantity, 0) / 100
+    const total = line_items.reduce((acc: number, item: any) => acc + item.price_data.unit_amount * item.quantity, 0) / 100
 
     // Create provisional order in memory with status "pending_payment"
     const orderId = await createProvisionalOrder({
