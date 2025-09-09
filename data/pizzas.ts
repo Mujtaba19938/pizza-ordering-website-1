@@ -82,7 +82,7 @@ export const pizzas: Pizza[] = [
     id: 8,
     name: "Sausage Pizza",
     description: "Italian sausage, red peppers, mozzarella, drizzle of sauce",
-    image: "/pizza-2.png",
+    image: "/sausage-pizza.jpg",
     prices: { small: 20, medium: 28, large: 36 },
     category: "Meat",
     toppings: ["Italian Sausage", "Red Peppers", "Mozzarella"],
