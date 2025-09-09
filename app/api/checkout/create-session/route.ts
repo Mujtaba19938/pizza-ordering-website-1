@@ -25,7 +25,7 @@ if (!STRIPE_SECRET_KEY || isPlaceholderKey(STRIPE_SECRET_KEY)) {
 let stripe: Stripe | null = null
 if (STRIPE_SECRET_KEY && !isPlaceholderKey(STRIPE_SECRET_KEY)) {
   try {
-    stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" })
+    stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2025-08-27.basil" })
     console.log("[v0] Stripe initialized successfully")
   } catch (error) {
     console.error("[v0] Failed to initialize Stripe:", error)

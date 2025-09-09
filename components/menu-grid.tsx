@@ -8,9 +8,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { Plus, Minus } from "lucide-react"
+import { Plus, Minus, Check } from "lucide-react"
 import { pizzas } from "@/data/pizzas"
 import { useCart } from "@/contexts/cart-context"
+import { useToast } from "@/hooks/use-toast"
 import type { Pizza } from "@/contexts/cart-context"
 
 const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty"]
@@ -22,6 +23,7 @@ export function MenuGrid() {
   const [selectedCrusts, setSelectedCrusts] = useState<{ [key: number]: string }>({})
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({})
   const { dispatch } = useCart()
+  const { toast } = useToast()
 
   const filteredPizzas =
     selectedCategory === "All" ? pizzas : pizzas.filter((pizza) => pizza.category === selectedCategory)
@@ -67,6 +69,20 @@ export function MenuGrid() {
         },
       })
     }
+
+    // Show success toast notification
+    toast({
+      title: (
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+            <Check className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-semibold">Pizza Added to Cart!</span>
+        </div>
+      ),
+      description: `${quantity} x ${pizza.name} (${size}) has been added to your cart.`,
+      className: "border-green-200 bg-green-50 text-green-800",
+    })
   }
 
   const calculatePrice = (pizza: Pizza, pizzaId: number) => {

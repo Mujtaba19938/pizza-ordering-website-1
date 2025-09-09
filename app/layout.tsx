@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { CartProvider } from "@/contexts/cart-context"
 import { Suspense } from "react"
 import { Footer } from "@/components/footer"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function RootLayout({
             <Footer />
           </CartProvider>
         </Suspense>
+        <Toaster />
         <Analytics />
       </body>
     </html>
