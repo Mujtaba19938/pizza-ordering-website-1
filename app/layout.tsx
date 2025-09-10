@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   description: "Order delicious pizzas online",
   generator: "v0.app",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png",
+    shortcut: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png",
+    apple: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png",
   },
 }
 
