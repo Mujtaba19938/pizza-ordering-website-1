@@ -8,7 +8,9 @@ import { Separator } from "@/components/ui/separator"
 import { User, MapPin, CreditCard, Clock, CheckCircle, Package, ShoppingBag, Wallet } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useCart } from "@/contexts/cart-context"
+import { useAuth } from "@/contexts/auth-context"
 import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
 import type { Order } from "@/lib/order-database"
 
 const mockProfile = {
@@ -24,12 +26,23 @@ export default function ProfilePage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
   const { addToCart } = useCart()
+  const { user, isAuthenticated, loading: authLoading } = useAuth()
   const { toast } = useToast()
+  const router = useRouter()
+
+  // Redirect to account page if not authenticated
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.push('/account')
+    }
+  }, [isAuthenticated, authLoading, router])
 
   // Fetch orders on component mount
   useEffect(() => {
-    fetchOrders()
-  }, [])
+    if (isAuthenticated) {
+      fetchOrders()
+    }
+  }, [isAuthenticated])
 
   const fetchOrders = async () => {
     try {
@@ -103,7 +116,10 @@ export default function ProfilePage() {
           pizza: {
             id: item.id,
             name: item.name,
-            category: item.category
+            category: item.category,
+            description: '',
+            image: '',
+            prices: { small: item.unitPrice, medium: item.unitPrice, large: item.unitPrice }
           },
           size: item.size,
           quantity: item.quantity,
@@ -128,6 +144,23 @@ export default function ProfilePage() {
         className: "border-red-200 bg-red-50 text-red-800",
       })
     }
+  }
+
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#d62828] mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!isAuthenticated) {
+    return null
   }
 
   return (
@@ -283,19 +316,25 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium text-gray-700">Full Name</label>
-                      <p className="text-gray-900">{mockProfile.name}</p>
+                      <p className="text-gray-900">{user?.name || 'Not provided'}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-gray-700">Email</label>
-                      <p className="text-gray-900">{mockProfile.email}</p>
+                      <p className="text-gray-900">{user?.email || 'Not provided'}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-gray-700">Phone</label>
-                      <p className="text-gray-900">{mockProfile.phone}</p>
+                      <p className="text-gray-900">{user?.phone || 'Not provided'}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-gray-700">Member Since</label>
-                      <p className="text-gray-900">{mockProfile.memberSince}</p>
+                      <p className="text-gray-900">
+                        {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long',
+                          day: 'numeric'
+                        }) : 'Unknown'}
+                      </p>
                     </div>
                   </div>
                   

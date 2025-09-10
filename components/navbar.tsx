@@ -2,14 +2,16 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Search, ShoppingCart, User } from "lucide-react"
+import { Search, ShoppingCart, User, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/contexts/cart-context"
+import { useAuth } from "@/contexts/auth-context"
 import { useEffect, useState } from "react"
 
 export function Navbar() {
   const { state } = useCart()
+  const { user, isAuthenticated, logout } = useAuth()
   const itemCount = state.items.reduce((total, item) => total + item.quantity, 0)
   const [open, setOpen] = useState(false)
 
@@ -96,11 +98,30 @@ export function Navbar() {
               )}
             </Button>
           </Link>
-          <Link href="/profile">
-            <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10">
-              <User className="h-5 w-5" />
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-2">
+              <Link href="/profile">
+                <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10">
+                  <User className="h-5 w-5" />
+                </Button>
+              </Link>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={logout}
+                className="text-white hover:text-red-300 hover:bg-white/10"
+                title="Logout"
+              >
+                <LogOut className="h-5 w-5" />
+              </Button>
+            </div>
+          ) : (
+            <Link href="/account">
+              <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -123,7 +144,16 @@ export function Navbar() {
           <Link onClick={() => setOpen(false)} href="/" className="block rounded-lg px-3 py-3 hover:bg-white/10">Home</Link>
           <Link onClick={() => setOpen(false)} href="/menu" className="block rounded-lg px-3 py-3 hover:bg-white/10">Shop</Link>
           <Link onClick={() => setOpen(false)} href="/contact" className="block rounded-lg px-3 py-3 hover:bg-white/10">Contact</Link>
-          <Link onClick={() => setOpen(false)} href="/profile" className="block rounded-lg px-3 py-3 hover:bg-white/10">Profile</Link>
+          {isAuthenticated ? (
+            <>
+              <Link onClick={() => setOpen(false)} href="/profile" className="block rounded-lg px-3 py-3 hover:bg-white/10">Profile</Link>
+              <button onClick={() => { logout(); setOpen(false); }} className="block w-full text-left rounded-lg px-3 py-3 hover:bg-white/10 text-red-300">
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link onClick={() => setOpen(false)} href="/account" className="block rounded-lg px-3 py-3 hover:bg-white/10">Account</Link>
+          )}
         </div>
       </div>
     </nav>
