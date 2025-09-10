@@ -437,18 +437,22 @@
 /* Promotional banner scroll animation */
 @keyframes banner-scroll {
   0% {
-    transform: translateX(100%);
+    transform: translate3d(100%, 0, 0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
 .animate-banner-scroll {
-  animation: banner-scroll 25s linear infinite;
+  animation: banner-scroll 30s linear infinite;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+  animation-fill-mode: none;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-play-state: running;
 }
 
 /* Isolated animation layers */
@@ -461,6 +465,8 @@
   z-index: 20;
   contain: layout style paint;
   isolation: isolate;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .pizza-animation {
