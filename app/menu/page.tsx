@@ -62,11 +62,6 @@ export default function MenuPage() {
                 >
                   {category}
                 </button>
-                {category === "Desserts" && (
-                  <div className="absolute -top-0.5 -right-0.5 bg-[#ffbe0b] text-black text-xs font-bold px-1 py-0.5 rounded-full animate-pump">
-                    NEW
-                  </div>
-                )}
               </div>
             ))}
           </div>
