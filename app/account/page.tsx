@@ -61,10 +61,10 @@ export default function AccountPage() {
       return
     }
 
-    if (userDetails.phone.replace(/\D/g, '').length !== 10) {
+    if (userDetails.phone.replace(/\D/g, '').length !== 11) {
       toast({
         title: "Invalid Phone Number",
-        description: "Please enter a valid 10-digit phone number.",
+        description: "Please enter a valid 11-digit phone number.",
         className: "border-red-200 bg-red-50 text-red-800",
       })
       return
@@ -215,7 +215,7 @@ export default function AccountPage() {
                           value={userDetails.phone}
                           onChange={(e) => setUserDetails(prev => ({ ...prev, phone: formatPhoneNumber(e.target.value) }))}
                           className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
-                          maxLength={12}
+                          maxLength={13}
                         />
                       </div>
                     </div>
@@ -223,7 +223,7 @@ export default function AccountPage() {
                   
                   <Button
                     type="submit"
-                    disabled={isLoading || !userDetails.name || !userDetails.email || userDetails.phone.replace(/\D/g, '').length !== 10}
+                    disabled={isLoading || !userDetails.name || !userDetails.email || userDetails.phone.replace(/\D/g, '').length !== 11}
                     className="w-full bg-white hover:bg-gray-100 text-black font-bold text-lg py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? "Sending..." : "CONTINUE"}
