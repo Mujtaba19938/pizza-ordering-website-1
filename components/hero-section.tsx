@@ -42,9 +42,30 @@ export function HeroSection() {
       <div className="banner-animation absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
         <div className="animate-banner-scroll flex items-center h-full" style={{ contain: 'layout style paint' }}>
           <div className="flex items-center gap-8 whitespace-nowrap">
-            <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
-            <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
-            <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
+            <span className="text-sm sm:text-base font-bold flex items-center gap-2">
+              <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
+              <span>Deal : Buy one large pizza and get one large pizza free</span>
+              <span className="text-red-600 font-black text-lg" style={{ 
+                textShadow: '2px 2px 0px #8b0000, -1px -1px 0px #8b0000, 1px -1px 0px #8b0000, -1px 1px 0px #8b0000',
+                transform: 'perspective(100px) rotateX(15deg)'
+              }}>!</span>
+            </span>
+            <span className="text-sm sm:text-base font-bold flex items-center gap-2">
+              <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
+              <span>Deal : Buy one large pizza and get one large pizza free</span>
+              <span className="text-red-600 font-black text-lg" style={{ 
+                textShadow: '2px 2px 0px #8b0000, -1px -1px 0px #8b0000, 1px -1px 0px #8b0000, -1px 1px 0px #8b0000',
+                transform: 'perspective(100px) rotateX(15deg)'
+              }}>!</span>
+            </span>
+            <span className="text-sm sm:text-base font-bold flex items-center gap-2">
+              <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
+              <span>Deal : Buy one large pizza and get one large pizza free</span>
+              <span className="text-red-600 font-black text-lg" style={{ 
+                textShadow: '2px 2px 0px #8b0000, -1px -1px 0px #8b0000, 1px -1px 0px #8b0000, -1px 1px 0px #8b0000',
+                transform: 'perspective(100px) rotateX(15deg)'
+              }}>!</span>
+            </span>
           </div>
         </div>
       </div>
