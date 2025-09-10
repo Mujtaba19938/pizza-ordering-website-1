@@ -151,70 +151,70 @@ export default function AccountPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-3 sm:px-4 py-8 sm:py-12">
         <div className="max-w-md mx-auto">
           <Card className="bg-[#d62828] border-0 shadow-2xl">
-            <CardHeader className="text-center pb-6">
-              <CardTitle className="text-3xl font-bold text-white mb-2">
+            <CardHeader className="text-center pb-4 sm:pb-6 px-4 sm:px-6">
+              <CardTitle className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Your Account
               </CardTitle>
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                 Please provide us with your contact details for updates, exclusive offers, and an easy ordering experience right at your fingertips.
               </p>
             </CardHeader>
             
-            <CardContent className="px-8 pb-8">
+            <CardContent className="px-4 sm:px-6 md:px-8 pb-6 sm:pb-8">
               {/* User Details Step */}
               {step === 'details' && (
-                <form onSubmit={handleDetailsSubmit} className="space-y-6">
-                  <div className="space-y-4">
+                <form onSubmit={handleDetailsSubmit} className="space-y-4 sm:space-y-6">
+                  <div className="space-y-3 sm:space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-white font-semibold text-sm">
+                      <Label htmlFor="name" className="text-white font-semibold text-xs sm:text-sm">
                         Your Name *
                       </Label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                         <Input
                           id="name"
                           type="text"
                           placeholder="Type your full name"
                           value={userDetails.name}
                           onChange={(e) => setUserDetails(prev => ({ ...prev, name: e.target.value }))}
-                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
+                          className="pl-9 sm:pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white text-sm sm:text-base h-10 sm:h-11"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-white font-semibold text-sm">
+                      <Label htmlFor="email" className="text-white font-semibold text-xs sm:text-sm">
                         Your Email *
                       </Label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                         <Input
                           id="email"
                           type="email"
                           placeholder="Type your email address"
                           value={userDetails.email}
                           onChange={(e) => setUserDetails(prev => ({ ...prev, email: e.target.value }))}
-                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
+                          className="pl-9 sm:pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white text-sm sm:text-base h-10 sm:h-11"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-white font-semibold text-sm">
+                      <Label htmlFor="phone" className="text-white font-semibold text-xs sm:text-sm">
                         Your Phone *
                       </Label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                         <Input
                           id="phone"
                           type="tel"
                           placeholder="Type your phone number"
                           value={userDetails.phone}
                           onChange={(e) => setUserDetails(prev => ({ ...prev, phone: formatPhoneNumber(e.target.value) }))}
-                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
+                          className="pl-9 sm:pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white text-sm sm:text-base h-10 sm:h-11"
                           maxLength={13}
                         />
                       </div>
@@ -224,7 +224,7 @@ export default function AccountPage() {
                   <Button
                     type="submit"
                     disabled={isLoading || !userDetails.name || !userDetails.email || userDetails.phone.replace(/\D/g, '').length !== 11}
-                    className="w-full bg-white hover:bg-gray-100 text-black font-bold text-lg py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-white hover:bg-gray-100 text-black font-bold text-base sm:text-lg py-3 sm:py-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? "Sending..." : "CONTINUE"}
                   </Button>

@@ -19,12 +19,12 @@ export function CartContent() {
 
   if (state.items.length === 0) {
     return (
-      <div className="text-center py-16">
-        <div className="text-6xl mb-4">🍕</div>
-        <h2 className="text-2xl font-bold text-[#d62828] mb-4">Your cart is empty</h2>
-        <p className="text-muted-foreground mb-8">Add some delicious pizzas to get started!</p>
+      <div className="text-center py-12 sm:py-16">
+        <div className="text-4xl sm:text-6xl mb-4">🍕</div>
+        <h2 className="text-xl sm:text-2xl font-bold text-[#d62828] mb-4">Your cart is empty</h2>
+        <p className="text-muted-foreground mb-6 sm:mb-8 text-sm sm:text-base">Add some delicious pizzas to get started!</p>
         <Link href="/menu">
-          <Button className="bg-[#d62828] text-white hover:bg-[#b91c1c]">Browse Menu</Button>
+          <Button className="bg-[#d62828] text-white hover:bg-[#b91c1c] text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3">Browse Menu</Button>
         </Link>
       </div>
     )
@@ -32,22 +32,22 @@ export function CartContent() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {/* Cart Items */}
-        <div className="lg:col-span-2 space-y-4">
+        <div className="lg:col-span-2 space-y-3 sm:space-y-4">
           {state.items.map((item, index) => (
-            <Card key={`${item.pizza.id}-${item.size}-${index}`} className="p-4">
-              <div className="flex items-center gap-4">
+            <Card key={`${item.pizza.id}-${item.size}-${index}`} className="p-3 sm:p-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <img
                   src={item.pizza.image || "/placeholder.svg"}
                   alt={item.pizza.name}
-                  className="w-20 h-20 rounded-lg object-cover"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover flex-shrink-0"
                 />
 
-                <div className="flex-1">
-                  <h3 className="font-bold text-[#d62828]">{item.pizza.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-2">{item.pizza.description}</p>
-                  <div className="flex items-center gap-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-[#d62828] text-sm sm:text-base line-clamp-2">{item.pizza.name}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-2 line-clamp-2">{item.pizza.description}</p>
+                  <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                     <span className="text-sm font-medium">
                       Size: {item.size.charAt(0).toUpperCase() + item.size.slice(1)}
                     </span>
@@ -56,36 +56,38 @@ export function CartContent() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => updateQuantity(item.pizza.id, item.size, item.quantity - 1)}
-                    className="h-8 w-8"
-                  >
-                    <Minus className="h-4 w-4" />
-                  </Button>
-                  <span className="w-8 text-center font-semibold">{item.quantity}</span>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => updateQuantity(item.pizza.id, item.size, item.quantity + 1)}
-                    className="h-8 w-8"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
+                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => updateQuantity(item.pizza.id, item.size, item.quantity - 1)}
+                      className="h-7 w-7 sm:h-8 sm:w-8"
+                    >
+                      <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </Button>
+                    <span className="w-6 sm:w-8 text-center font-semibold text-sm sm:text-base">{item.quantity}</span>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => updateQuantity(item.pizza.id, item.size, item.quantity + 1)}
+                      className="h-7 w-7 sm:h-8 sm:w-8"
+                    >
+                      <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </Button>
+                  </div>
 
-                <div className="text-right">
-                  <p className="font-bold text-lg">${(item.price * item.quantity).toFixed(2)}</p>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeItem(item.pizza.id, item.size)}
-                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <div className="text-center sm:text-right">
+                    <p className="font-bold text-base sm:text-lg">${(item.price * item.quantity).toFixed(2)}</p>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeItem(item.pizza.id, item.size)}
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 h-7 w-7 sm:h-8 sm:w-8 p-0"
+                    >
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>

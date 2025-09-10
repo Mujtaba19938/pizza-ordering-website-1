@@ -56,15 +56,15 @@ export function Navbar() {
             />
           </button>
 
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Link href="/" className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity">
             <Image
               src="/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png"
               alt="FoodKing Pizza Logo"
               width={40}
               height={40}
-              className="w-10 h-10 object-contain"
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
             />
-            <span className="text-2xl font-extrabold tracking-tight text-white">
+            <span className="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight text-white">
               FoodKing
             </span>
           </Link>
@@ -84,41 +84,41 @@ export function Navbar() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10">
-            <Search className="h-5 w-5" />
+        <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-4">
+          <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10 h-9 w-9 sm:h-10 sm:w-10">
+            <Search className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10 relative">
-              <ShoppingCart className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10 relative h-9 w-9 sm:h-10 sm:w-10">
+              <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
               {itemCount > 0 && (
-                <Badge className="absolute -top-2 -right-2 bg-[#ffbe0b] text-black text-xs min-w-[20px] h-5 flex items-center justify-center">
+                <Badge className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-[#ffbe0b] text-black text-xs min-w-[16px] h-4 sm:min-w-[20px] sm:h-5 flex items-center justify-center">
                   {itemCount}
                 </Badge>
               )}
             </Button>
           </Link>
           {isAuthenticated ? (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2">
               <Link href="/profile">
-                <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10">
-                  <User className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10 h-9 w-9 sm:h-10 sm:w-10">
+                  <User className="h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
               </Link>
               <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={logout}
-                className="text-white hover:text-red-300 hover:bg-white/10"
+                className="text-white hover:text-red-300 hover:bg-white/10 h-9 w-9 sm:h-10 sm:w-10"
                 title="Logout"
               >
-                <LogOut className="h-5 w-5" />
+                <LogOut className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </div>
           ) : (
             <Link href="/account">
-              <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10">
-                <User className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10 h-9 w-9 sm:h-10 sm:w-10">
+                <User className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </Link>
           )}
@@ -135,24 +135,24 @@ export function Navbar() {
 
       {/* Panel */}
       <div
-        className={`md:hidden fixed left-0 top-0 h-full w-[82%] max-w-sm bg-[#d62828]/98 backdrop-blur-md border-r border-white/10 transition-transform duration-300 ${
+        className={`md:hidden fixed left-0 top-0 h-full w-[85%] max-w-sm bg-[#d62828]/98 backdrop-blur-md border-r border-white/10 transition-transform duration-300 ${
           open ? 'translate-x-0' : '-translate-x-full'
         } z-50`}
       >
         <div className="hero-grain" />
-        <div className="px-5 py-5 space-y-2">
-          <Link onClick={() => setOpen(false)} href="/" className="block rounded-lg px-3 py-3 hover:bg-white/10">Home</Link>
-          <Link onClick={() => setOpen(false)} href="/menu" className="block rounded-lg px-3 py-3 hover:bg-white/10">Shop</Link>
-          <Link onClick={() => setOpen(false)} href="/contact" className="block rounded-lg px-3 py-3 hover:bg-white/10">Contact</Link>
+        <div className="px-4 py-6 space-y-1">
+          <Link onClick={() => setOpen(false)} href="/" className="block rounded-lg px-4 py-3 hover:bg-white/10 text-base font-medium">Home</Link>
+          <Link onClick={() => setOpen(false)} href="/menu" className="block rounded-lg px-4 py-3 hover:bg-white/10 text-base font-medium">Shop</Link>
+          <Link onClick={() => setOpen(false)} href="/contact" className="block rounded-lg px-4 py-3 hover:bg-white/10 text-base font-medium">Contact</Link>
           {isAuthenticated ? (
             <>
-              <Link onClick={() => setOpen(false)} href="/profile" className="block rounded-lg px-3 py-3 hover:bg-white/10">Profile</Link>
-              <button onClick={() => { logout(); setOpen(false); }} className="block w-full text-left rounded-lg px-3 py-3 hover:bg-white/10 text-red-300">
+              <Link onClick={() => setOpen(false)} href="/profile" className="block rounded-lg px-4 py-3 hover:bg-white/10 text-base font-medium">Profile</Link>
+              <button onClick={() => { logout(); setOpen(false); }} className="block w-full text-left rounded-lg px-4 py-3 hover:bg-white/10 text-red-300 text-base font-medium">
                 Logout
               </button>
             </>
           ) : (
-            <Link onClick={() => setOpen(false)} href="/account" className="block rounded-lg px-3 py-3 hover:bg-white/10">Account</Link>
+            <Link onClick={() => setOpen(false)} href="/account" className="block rounded-lg px-4 py-3 hover:bg-white/10 text-base font-medium">Account</Link>
           )}
         </div>
       </div>

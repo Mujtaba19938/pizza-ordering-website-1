@@ -46,7 +46,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className={`bg-[#d62828] hero-texture text-white ${showBanner ? 'pt-20 sm:pt-24' : 'pt-16 sm:pt-20'} pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden min-h-[540px] md:min-h-[680px] flex items-center`}>
+    <section className={`bg-[#d62828] hero-texture text-white ${showBanner ? 'pt-16 sm:pt-20 md:pt-24' : 'pt-12 sm:pt-16 md:pt-20'} pb-12 sm:pb-16 md:pb-20 px-3 sm:px-4 md:px-6 relative overflow-hidden min-h-[480px] sm:min-h-[540px] md:min-h-[680px] flex items-center`}>
       {/* Banner Animation Layer - Only show on Tuesday and Thursday */}
       {showBanner && (
         <div className="banner-animation absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
@@ -70,41 +70,41 @@ export function HeroSection() {
           {/* Left Side - Text Content */}
           <div className="relative">
             <div className="space-y-5 sm:space-y-6">
-              <h1 className={`font-extrabold uppercase tracking-[-0.02em] leading-[0.9] text-white text-[36px] sm:text-[54px] md:text-[84px] lg:text-[108px] transition-all ${isFading ? 'fade-out-200' : 'fade-in-200'}`}>
+              <h1 className={`font-extrabold uppercase tracking-[-0.02em] leading-[0.9] text-white text-[28px] xs:text-[32px] sm:text-[48px] md:text-[72px] lg:text-[96px] xl:text-[108px] transition-all ${isFading ? 'fade-out-200' : 'fade-in-200'}`}>
                 <span className="block">{slides[currentIndex].lines[0]}</span>
                 <span className="block">{slides[currentIndex].lines[1]}</span>
                 <span className="block">{slides[currentIndex].lines[2]}</span>
               </h1>
-              <p className={`text-white/85 text-base sm:text-lg md:text-xl font-semibold ${isFading ? 'fade-out-200' : 'fade-in-200'}`}>{slides[currentIndex].sub}</p>
+              <p className={`text-white/85 text-sm sm:text-base md:text-lg lg:text-xl font-semibold ${isFading ? 'fade-out-200' : 'fade-in-200'}`}>{slides[currentIndex].sub}</p>
               <div className="pt-2">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-[#ffbe0b] text-black hover:bg-[#e6a800] text-sm sm:text-base md:text-lg px-5 sm:px-6 md:px-8 py-5 sm:py-6 rounded-lg font-bold shadow-lg"
+                  className="bg-[#ffbe0b] text-black hover:bg-[#e6a800] text-sm sm:text-base md:text-lg px-4 sm:px-5 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 rounded-lg font-bold shadow-lg w-full sm:w-auto"
                 >
                   <Link href="/menu">
-                    Order Now <ArrowRight className="ml-2 h-5 w-5" />
+                    Order Now <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                 </Button>
               </div>
             </div>
 
             {/* Carousel indicator */}
-            <div className="mt-6 flex md:mt-10 items-center gap-4 md:gap-6 text-white/90 select-none">
+            <div className="mt-4 sm:mt-6 md:mt-10 flex items-center gap-3 sm:gap-4 md:gap-6 text-white/90 select-none">
               <button
                 onClick={handleNext}
-                className="text-xl font-semibold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded px-1 cursor-pointer"
+                className="text-lg sm:text-xl font-semibold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded px-1 cursor-pointer"
                 aria-label="Show next pizza"
               >
                 {currentIndex + 1}
               </button>
-              <div className="relative h-[3px] w-24 md:w-28 bg-white/30 rounded-full overflow-hidden">
+              <div className="relative h-[2px] sm:h-[3px] w-20 sm:w-24 md:w-28 bg-white/30 rounded-full overflow-hidden">
                 <div
                   className="absolute left-0 top-0 h-full bg-white transition-all duration-500"
                   style={{ width: `${((currentIndex + 1) / slides.length) * 100}%` }}
                 />
               </div>
-              <span className="text-xl font-semibold">/ {slides.length}</span>
+              <span className="text-lg sm:text-xl font-semibold">/ {slides.length}</span>
             </div>
           </div>
 

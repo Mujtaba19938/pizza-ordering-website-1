@@ -26,21 +26,21 @@ export function ProductCard({ id, name, price, image, description, onClick }: Pr
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
-        <div className="p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-2">{name}</h3>
-          {description && <p className="text-gray-600 text-sm mb-3 line-clamp-2">{description}</p>}
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-[#d62828]">${price.toFixed(2)}</span>
+        <div className="p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 line-clamp-2">{name}</h3>
+          {description && <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2">{description}</p>}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <span className="text-xl sm:text-2xl font-bold text-[#d62828]">${price.toFixed(2)}</span>
             {onClick ? (
               <Button 
                 onClick={onClick}
-                className="bg-[#d62828] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-full transition-colors duration-200"
+                className="bg-[#d62828] hover:bg-[#b91c1c] text-white px-4 sm:px-6 py-2 rounded-full transition-colors duration-200 text-sm sm:text-base w-full sm:w-auto"
               >
                 View Details
               </Button>
             ) : (
-              <Link href={`/products/${id}`}>
-                <Button className="bg-[#d62828] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-full transition-colors duration-200">
+              <Link href={`/products/${id}`} className="w-full sm:w-auto">
+                <Button className="bg-[#d62828] hover:bg-[#b91c1c] text-white px-4 sm:px-6 py-2 rounded-full transition-colors duration-200 text-sm sm:text-base w-full">
                   View Details
                 </Button>
               </Link>

@@ -85,14 +85,7 @@ export function MenuGrid() {
     }
 
     toast({
-      title: (
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-            <Check className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-semibold">{getItemType(pizza.category)} Added to Cart!</span>
-        </div>
-      ),
+      title: `${getItemType(pizza.category)} Added to Cart!`,
       description: `${quantity} x ${pizza.name} (${size}) has been added to your cart.`,
       className: "border-green-200 bg-green-50 text-green-800",
     })
@@ -109,17 +102,17 @@ export function MenuGrid() {
   return (
     <div>
       {/* Category Filter */}
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12">
         {categories.map((category) => (
           <Button
             key={category}
             variant={selectedCategory === category ? "default" : "outline"}
             onClick={() => setSelectedCategory(category)}
-            className={
+            className={`text-xs sm:text-sm px-3 sm:px-4 py-2 ${
               selectedCategory === category
                 ? "bg-[#d62828] text-white hover:bg-[#b91c1c]"
                 : "border-[#d62828] text-[#d62828] hover:bg-[#d62828] hover:text-white"
-            }
+            }`}
           >
             {category}
           </Button>
@@ -127,7 +120,7 @@ export function MenuGrid() {
       </div>
 
       {/* Pizza Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {filteredPizzas.map((pizza) => {
           const selectedSize = selectedSizes[pizza.id] || "medium"
           const price = calculatePrice(pizza, pizza.id)
@@ -146,14 +139,14 @@ export function MenuGrid() {
                 </div>
               </CardHeader>
 
-              <CardContent className="p-6 space-y-4">
+              <CardContent className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                 <div>
-                  <h3 className="text-xl font-bold text-[#d62828] mb-2">{pizza.name}</h3>
-                  <p className="text-muted-foreground mb-2 leading-relaxed">{pizza.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-[#d62828] mb-2 line-clamp-2">{pizza.name}</h3>
+                  <p className="text-muted-foreground mb-2 leading-relaxed text-sm sm:text-base line-clamp-3">{pizza.description}</p>
 
                   {/* Base Toppings */}
                   {pizza.toppings && (
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-xs sm:text-sm text-muted-foreground">
                       <span className="font-medium">Includes:</span> {pizza.toppings.join(", ")}
                     </div>
                   )}
@@ -163,19 +156,19 @@ export function MenuGrid() {
 
                 {/* Size Selection */}
                 <div>
-                  <Label className="font-semibold mb-2 block">Size:</Label>
-                  <div className="flex gap-2">
+                  <Label className="font-semibold mb-2 block text-sm sm:text-base">Size:</Label>
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {(["small", "medium", "large"] as const).map((size) => (
                       <Button
                         key={size}
                         variant={selectedSize === size ? "default" : "outline"}
                         size="sm"
                         onClick={() => handleSizeSelect(pizza.id, size)}
-                        className={
+                        className={`text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 ${
                           selectedSize === size
                             ? "bg-[#ffbe0b] text-black hover:bg-[#e6a800]"
                             : "border-[#ffbe0b] text-[#ffbe0b] hover:bg-[#ffbe0b] hover:text-black"
-                        }
+                        }`}
                       >
                         {size.charAt(0).toUpperCase() + size.slice(1)} (${pizza.prices[size]})
                       </Button>
