@@ -7,15 +7,17 @@ import { pizzas } from "@/data/pizzas"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 
-  const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty", "Desserts", "Drinks"]
+  const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty", "Desserts"]
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedPizza, setSelectedPizza] = useState<any>(null)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
 
-  const filteredPizzas =
-    selectedCategory === "All" ? pizzas : pizzas.filter((pizza) => pizza.category === selectedCategory)
+  // Filter out drinks from the main product grid and filter by category
+  const filteredPizzas = pizzas
+    .filter((pizza) => pizza.category !== "Drinks")
+    .filter((pizza) => selectedCategory === "All" || pizza.category === selectedCategory)
 
   const handlePizzaClick = (pizza: any) => {
     setSelectedPizza(pizza)
@@ -81,6 +83,7 @@ export default function MenuPage() {
               image={pizza.image}
               description={pizza.description}
               onClick={() => handlePizzaClick(pizza)}
+              showDrinks={true}
             />
           ))}
         </div>

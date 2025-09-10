@@ -25,8 +25,10 @@ export function MenuGrid() {
   const { dispatch } = useCart()
   const { toast } = useToast()
 
-  const filteredPizzas =
-    selectedCategory === "All" ? pizzas : pizzas.filter((pizza) => pizza.category === selectedCategory)
+  // Filter out drinks from the main product grid and filter by category
+  const filteredPizzas = pizzas
+    .filter((pizza) => pizza.category !== "Drinks")
+    .filter((pizza) => selectedCategory === "All" || pizza.category === selectedCategory)
 
   const handleSizeSelect = (pizzaId: number, size: "small" | "medium" | "large") => {
     setSelectedSizes((prev) => ({ ...prev, [pizzaId]: size }))
