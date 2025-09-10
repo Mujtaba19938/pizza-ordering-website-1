@@ -496,26 +496,27 @@
   will-change: transform;
 }
 
-/* GPU-Optimized Pizza Animation */
+/* GPU-Optimized Pizza Animation - 60fps Performance */
 @keyframes pizza-rotate {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translateZ(0);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(360deg) translateZ(0);
   }
 }
 
-.pizza-animation {
+.pizza-animation-layer {
   position: absolute;
   top: 50%;
   right: 1rem;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateZ(0);
   z-index: 10;
   contain: strict;
   isolation: isolate;
   pointer-events: none;
   will-change: transform;
+  backface-visibility: hidden;
 }
 
 .pizza-container {
@@ -523,6 +524,8 @@
   width: 300px;
   height: 300px;
   contain: layout style paint;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .pizza-rotator {
@@ -536,6 +539,7 @@
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+  contain: layout style paint;
 }
 
 .pizza-image {
@@ -545,8 +549,12 @@
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
+  image-rendering: optimizeSpeed;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
+/* Responsive sizing with GPU acceleration */
 @media (min-width: 640px) {
   .pizza-container {
     width: 380px;
@@ -565,7 +573,7 @@
 }
 
 @media (min-width: 1024px) {
-  .pizza-animation {
+  .pizza-animation-layer {
     right: 2rem;
   }
   .pizza-container {
