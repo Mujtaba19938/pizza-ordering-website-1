@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { BackgroundIcons } from "@/components/background-icons"
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 
 export function HeroSection() {
   const slides = useMemo(
@@ -27,6 +27,14 @@ export function HeroSection() {
   )
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFading, setIsFading] = useState(false)
+  const [showBanner, setShowBanner] = useState(false)
+
+  // Check if today is Tuesday (2) or Thursday (4)
+  useEffect(() => {
+    const today = new Date()
+    const dayOfWeek = today.getDay() // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    setShowBanner(dayOfWeek === 2 || dayOfWeek === 4) // Tuesday or Thursday
+  }, [])
 
   const handleNext = () => {
     setIsFading(true)
@@ -37,22 +45,24 @@ export function HeroSection() {
   }
 
   return (
-    <section className="bg-[#d62828] hero-texture text-white pt-20 sm:pt-24 pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden min-h-[540px] md:min-h-[680px] flex items-center">
-      {/* Banner Animation Layer - GPU Optimized */}
-      <div className="banner-animation absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
-        <div className="banner-scroll-container">
-          <div className="banner-text-track">
-            {/* Multiple repetitions for seamless infinite scroll */}
-            {Array.from({ length: 8 }, (_, i) => (
-              <span key={i} className="banner-text-item">
-                <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
-                <span>Deal : Buy one large pizza and get one large pizza free</span>
-                <span className="banner-exclamation">!</span>
-              </span>
-            ))}
+    <section className={`bg-[#d62828] hero-texture text-white ${showBanner ? 'pt-20 sm:pt-24' : 'pt-16 sm:pt-20'} pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden min-h-[540px] md:min-h-[680px] flex items-center`}>
+      {/* Banner Animation Layer - Only show on Tuesday and Thursday */}
+      {showBanner && (
+        <div className="banner-animation absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
+          <div className="banner-scroll-container">
+            <div className="banner-text-track">
+              {/* Multiple repetitions for seamless infinite scroll */}
+              {Array.from({ length: 8 }, (_, i) => (
+                <span key={i} className="banner-text-item">
+                  <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
+                  <span>Deal : Buy one large pizza and get one large pizza free</span>
+                  <span className="banner-exclamation">!</span>
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
       
       {/* Background Effects Layer */}
       <div className="hero-grain hero-grain-strong" />
