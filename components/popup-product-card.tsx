@@ -195,33 +195,35 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
               <div className="text-2xl font-bold text-[#d62828]">${calculatePrice().toFixed(2)}</div>
             </div>
 
-            {/* Size Selection */}
-            <div>
-              <Label className="text-lg font-semibold mb-3 block">Size</Label>
-              <div className="grid grid-cols-3 gap-3">
-                {sizeOptions.map((size) => {
-                  const active = selectedSize === size.id
-                  return (
-                    <button
-                      key={size.id}
-                      type="button"
-                      onClick={() => setSelectedSize(size.id as "small" | "medium" | "large")}
-                      className={`rounded-2xl border px-4 py-3 text-left transition-all bg-white/50 hover:bg-white/70 backdrop-blur-sm ${
-                        active ? 'border-[#d62828] ring-2 ring-[#d62828]/40 shadow-md' : 'border-black/10'
-                      }`}
-                    >
-                      <div className="font-semibold text-sm">{size.label}</div>
-                      {size.price > 0 && (
-                        <div className="text-xs text-muted-foreground">(+${size.price.toFixed(2)})</div>
-                      )}
-                    </button>
-                  )
-                })}
+            {/* Size Selection - Only for non-desserts and non-drinks */}
+            {pizza.category !== "Desserts" && pizza.category !== "Drinks" && (
+              <div>
+                <Label className="text-lg font-semibold mb-3 block">Size</Label>
+                <div className="grid grid-cols-3 gap-3">
+                  {sizeOptions.map((size) => {
+                    const active = selectedSize === size.id
+                    return (
+                      <button
+                        key={size.id}
+                        type="button"
+                        onClick={() => setSelectedSize(size.id as "small" | "medium" | "large")}
+                        className={`rounded-2xl border px-4 py-3 text-left transition-all bg-white/50 hover:bg-white/70 backdrop-blur-sm ${
+                          active ? 'border-[#d62828] ring-2 ring-[#d62828]/40 shadow-md' : 'border-black/10'
+                        }`}
+                      >
+                        <div className="font-semibold text-sm">{size.label}</div>
+                        {size.price > 0 && (
+                          <div className="text-xs text-muted-foreground">(+${size.price.toFixed(2)})</div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Crust Selection - Only for non-drinks */}
-            {pizza.category !== "Drinks" && (
+            {/* Crust Selection - Only for non-desserts and non-drinks */}
+            {pizza.category !== "Desserts" && pizza.category !== "Drinks" && (
               <div>
                 <Label className="text-lg font-semibold mb-3 block">Crust</Label>
                 <div className="grid grid-cols-3 gap-3">
@@ -247,32 +249,32 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
               </div>
             )}
 
-            {/* Toppings/Add-ons Selection */}
-            <div>
-              <Label className="text-lg font-semibold mb-3 block">
-                {pizza.category === "Drinks" ? "Add-ons" : "Extra Toppings"}
-              </Label>
-              <div className="flex flex-wrap gap-2">
-                {toppingOptions.map((topping) => {
-                  const checked = selectedToppings.includes(topping.id)
-                  return (
-                    <button
-                      key={topping.id}
-                      type="button"
-                      onClick={() => handleToppingChange(topping.id, !checked)}
-                      className={`rounded-full border px-3 py-2 text-sm transition-all bg-white/60 hover:bg-white/75 backdrop-blur-sm ${
-                        checked ? 'border-[#d62828] ring-2 ring-[#d62828]/40 text-[#b91c1c] shadow' : 'border-black/10'
-                      }`}
-                    >
-                      {topping.label} (+${topping.price.toFixed(2)})
-                    </button>
-                  )
-                })}
+            {/* Toppings/Add-ons Selection - Only for non-desserts and non-drinks */}
+            {pizza.category !== "Desserts" && pizza.category !== "Drinks" && (
+              <div>
+                <Label className="text-lg font-semibold mb-3 block">Extra Toppings</Label>
+                <div className="flex flex-wrap gap-2">
+                  {toppingOptions.map((topping) => {
+                    const checked = selectedToppings.includes(topping.id)
+                    return (
+                      <button
+                        key={topping.id}
+                        type="button"
+                        onClick={() => handleToppingChange(topping.id, !checked)}
+                        className={`rounded-full border px-3 py-2 text-sm transition-all bg-white/60 hover:bg-white/75 backdrop-blur-sm ${
+                          checked ? 'border-[#d62828] ring-2 ring-[#d62828]/40 text-[#b91c1c] shadow' : 'border-black/10'
+                        }`}
+                      >
+                        {topping.label} (+${topping.price.toFixed(2)})
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Cold Drinks Section - Only show for non-drink items */}
-            {pizza.category !== "Drinks" && (
+            {/* Cold Drinks Section - Only show for non-drink items and non-desserts */}
+            {pizza.category !== "Drinks" && pizza.category !== "Desserts" && (
               <div className="space-y-4">
                 <div className="border-t border-gray-200 pt-4">
                   <Label className="text-lg font-semibold mb-3 block flex items-center gap-2">
