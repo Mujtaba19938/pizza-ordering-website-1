@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
+import { createOrder } from "@/lib/order-database"
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 const APP_BASE_URL = process.env.APP_BASE_URL
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
     const baseUrl = APP_BASE_URL || `${req.nextUrl.protocol}//${req.nextUrl.host}`
     console.log("[v0] Using base URL:", baseUrl)
 
-    const { cartItems, customer } = await req.json()
+    const { cartItems, customer, deliveryAddress } = await req.json()
     console.log("[v0] Creating checkout session for:", {
       itemCount: cartItems?.length,
       customerEmail: customer?.email,
@@ -63,10 +64,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No items in cart" }, { status: 400 })
     }
 
+    // Convert cart items to order items format
+    const orderItems = cartItems.map((item: any) => ({
+      id: item.pizza?.id || Math.random(),
+      name: item.name,
+      size: item.size,
+      quantity: item.quantity,
+      unitPrice: item.price,
+      totalPrice: item.price * item.quantity,
+      selectedToppings: item.selectedToppings || [],
+      selectedCrust: item.selectedCrust,
+      category: item.pizza?.category || "Pizza"
+    }))
+
     // Server-side price validation - get actual prices from your pizza data
     const line_items = cartItems.map((item: any) => {
-      // TODO: Replace with actual server-side price lookup
-      const serverUnitPrice = item.price // For now, trust the client price
+      const serverUnitPrice = item.price
 
       return {
         price_data: {
@@ -85,23 +98,36 @@ export async function POST(req: NextRequest) {
     // Calculate total
     const total = line_items.reduce((acc: number, item: any) => acc + item.price_data.unit_amount * item.quantity, 0) / 100
 
-    // Create provisional order in memory with status "pending_payment"
-    const orderId = await createProvisionalOrder({
-      cartItems,
-      customer,
-      total,
-      status: "pending_payment",
-      createdAt: new Date().toISOString(),
+    // Create order in database
+    const order = await createOrder({
+      customer: {
+        name: `${customer.firstName} ${customer.lastName}`,
+        email: customer.email,
+        phone: customer.phone,
+        address: customer.address
+      },
+      items: orderItems,
+      deliveryAddress: {
+        street: deliveryAddress?.address || customer.address,
+        city: deliveryAddress?.city || customer.city,
+        state: deliveryAddress?.state || customer.state,
+        zipCode: deliveryAddress?.zipCode || customer.zipCode,
+        instructions: deliveryAddress?.instructions || ""
+      },
+      paymentMethod: "stripe"
     })
 
-    console.log("[v0] Created provisional order:", orderId)
+    console.log("[v0] Created order in database:", order.id)
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
-      success_url: `https://pizza-ordering-website-two.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `https://pizza-ordering-website-two.vercel.app/success?session_id={CHECKOUT_SESSION_ID}&order_id=${order.id}`,
       cancel_url: `https://pizza-ordering-website-two.vercel.app/cancel`,
-      metadata: { orderId: String(orderId) },
+      metadata: { 
+        orderId: order.id,
+        orderNumber: order.orderNumber
+      },
       billing_address_collection: "required",
       allow_promotion_codes: true,
       customer_email: customer.email,

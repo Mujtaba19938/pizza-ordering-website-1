@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Search, ShoppingCart } from "lucide-react"
+import { Search, ShoppingCart, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/contexts/cart-context"
@@ -96,12 +96,11 @@ export function Navbar() {
               )}
             </Button>
           </Link>
-          <Button
-            variant="outline"
-            className="hidden sm:inline-flex border-2 border-white text-white hover:bg-[#ffbe0b] hover:text-black hover:border-[#ffbe0b] bg-transparent font-semibold transition-all"
-          >
-            Order Now
-          </Button>
+          <Link href="/profile">
+            <Button variant="ghost" size="icon" className="text-white hover:text-[#ffbe0b] hover:bg-white/10">
+              <User className="h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -124,12 +123,7 @@ export function Navbar() {
           <Link onClick={() => setOpen(false)} href="/" className="block rounded-lg px-3 py-3 hover:bg-white/10">Home</Link>
           <Link onClick={() => setOpen(false)} href="/menu" className="block rounded-lg px-3 py-3 hover:bg-white/10">Shop</Link>
           <Link onClick={() => setOpen(false)} href="/contact" className="block rounded-lg px-3 py-3 hover:bg-white/10">Contact</Link>
-          <Button
-            onClick={() => setOpen(false)}
-            className="w-full mt-2 bg-[#ffbe0b] hover:bg-[#e6a800] text-black font-semibold"
-          >
-            Order Now
-          </Button>
+          <Link onClick={() => setOpen(false)} href="/profile" className="block rounded-lg px-3 py-3 hover:bg-white/10">Profile</Link>
         </div>
       </div>
     </nav>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { BackgroundIcons } from "@/components/background-icons"
 import { useMemo, useState, useEffect } from "react"
+import Link from "next/link"
 
 export function HeroSection() {
   const slides = useMemo(
@@ -77,10 +78,13 @@ export function HeroSection() {
               <p className={`text-white/85 text-base sm:text-lg md:text-xl font-semibold ${isFading ? 'fade-out-200' : 'fade-in-200'}`}>{slides[currentIndex].sub}</p>
               <div className="pt-2">
                 <Button
+                  asChild
                   size="lg"
                   className="bg-[#ffbe0b] text-black hover:bg-[#e6a800] text-sm sm:text-base md:text-lg px-5 sm:px-6 md:px-8 py-5 sm:py-6 rounded-lg font-bold shadow-lg"
                 >
-                  Order Now <ArrowRight className="ml-2 h-5 w-5" />
+                  <Link href="/menu">
+                    Order Now <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
                 </Button>
               </div>
             </div>
