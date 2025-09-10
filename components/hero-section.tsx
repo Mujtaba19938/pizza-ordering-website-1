@@ -40,7 +40,7 @@ export function HeroSection() {
     <section className="bg-[#d62828] hero-texture text-white pt-20 sm:pt-24 pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden min-h-[540px] md:min-h-[680px] flex items-center">
       {/* Promotional Banner */}
       <div className="absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
-        <div className="animate-banner-scroll flex items-center h-full">
+        <div className="animate-banner-scroll flex items-center h-full" style={{ contain: 'layout style paint' }}>
           <div className="flex items-center gap-8 whitespace-nowrap">
             <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
             <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
@@ -95,7 +95,7 @@ export function HeroSection() {
 
           {/* Right Side - Pizza Image Carousel */}
           <div className="flex justify-center lg:justify-end z-10 relative mt-8 lg:mt-0">
-            <div className="relative">
+            <div className="relative" style={{ contain: 'layout style paint' }}>
               <div className="w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] md:w-[520px] md:h-[520px] lg:w-[560px] lg:h-[560px] rounded-full flex items-center justify-center animate-hero-rotate">
                 <img
                   key={currentIndex}

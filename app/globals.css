@@ -277,7 +277,10 @@
 }
 
 .animate-hero-rotate {
-  animation: hero-rotate-infinite 24s linear infinite;
+  animation: hero-rotate-infinite 30s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -442,7 +445,10 @@
 }
 
 .animate-banner-scroll {
-  animation: banner-scroll 20s linear infinite;
+  animation: banner-scroll 25s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Respect reduced motion preference */
