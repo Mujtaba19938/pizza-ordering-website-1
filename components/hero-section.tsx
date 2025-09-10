@@ -54,20 +54,6 @@ export function HeroSection() {
         </div>
       </div>
       
-      {/* Pizza Animation Layer - GPU Optimized */}
-      <div className="pizza-animation absolute top-1/2 right-4 lg:right-8 transform -translate-y-1/2 z-10 pointer-events-none">
-        <div className="pizza-container">
-          <div className="pizza-rotator">
-            <img
-              key={currentIndex}
-              src={slides[currentIndex].image}
-              alt="Delicious Pizza"
-              className={`pizza-image ${isFading ? 'fade-out-200' : 'fade-in-200'}`}
-            />
-          </div>
-        </div>
-      </div>
-      
       {/* Background Effects Layer */}
       <div className="hero-grain hero-grain-strong" />
       <BackgroundIcons />
@@ -113,9 +99,18 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Side - Spacer for Pizza Animation */}
-          <div className="hidden lg:block">
-            {/* This div provides space for the pizza animation without interfering */}
+          {/* Right Side - Pizza Image Carousel */}
+          <div className="flex justify-center lg:justify-end z-10 relative mt-8 lg:mt-0">
+            <div className="pizza-container">
+              <div className="pizza-rotator">
+                <img
+                  key={currentIndex}
+                  src={slides[currentIndex].image}
+                  alt="Delicious Pizza"
+                  className={`pizza-image ${isFading ? 'fade-out-200' : 'fade-in-200'}`}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
