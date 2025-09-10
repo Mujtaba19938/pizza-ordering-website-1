@@ -514,11 +514,25 @@
 
 .pizza-container {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   contain: layout style paint;
   transform: translateZ(0);
   will-change: transform;
+}
+
+@media (min-width: 640px) {
+  .pizza-container {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pizza-container {
+    width: 300px;
+    height: 300px;
+  }
 }
 
 .pizza-rotator {
@@ -528,11 +542,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: pizza-rotate 30s linear infinite;
+  animation: pizza-rotate 20s linear infinite;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
   contain: layout style paint;
+}
+
+@media (min-width: 1024px) {
+  .pizza-rotator {
+    animation: pizza-rotate 30s linear infinite;
+  }
 }
 
 .pizza-image {

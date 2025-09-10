@@ -32,24 +32,24 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-6 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-[#d62828] mb-4 inline-block px-8 py-2 bg-white shadow-lg" style={{ borderRadius: '9999px' }}>
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 py-8 sm:py-12">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#d62828] mb-2 sm:mb-4 inline-block px-4 sm:px-6 md:px-8 py-2 bg-white shadow-lg" style={{ borderRadius: '9999px' }}>
             Our Menu
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mt-6">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-4 sm:mt-6 px-4">
             Discover our delicious selection of handcrafted pizzas made with the finest ingredients
           </p>
         </div>
 
         {/* Category Filter - Pill Navigation */}
-        <div className="flex flex-wrap justify-center mb-12">
-          <div className="bg-gray-100 p-1 rounded-full inline-flex gap-1">
+        <div className="flex flex-wrap justify-center mb-8 sm:mb-12 px-2">
+          <div className="bg-gray-100 p-1 rounded-full inline-flex gap-1 overflow-x-auto w-full sm:w-auto">
             {categories.map((category) => (
-              <div key={category} className="relative">
+              <div key={category} className="relative flex-shrink-0">
                 <button
                   onClick={() => setSelectedCategory(category)}
-                  className={`pill-nav-button px-6 py-3 text-sm font-semibold ${
+                  className={`pill-nav-button px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-xs sm:text-sm font-semibold whitespace-nowrap ${
                     selectedCategory === category
                       ? "bg-[#d62828] text-white shadow-lg transform scale-105"
                       : "text-gray-600 hover:text-[#d62828] hover:bg-white hover:shadow-md"
@@ -63,7 +63,7 @@ export default function MenuPage() {
                   {category}
                 </button>
                 {category === "Desserts" && (
-                  <div className="absolute -top-1 -right-1 bg-[#ffbe0b] text-black text-xs font-bold px-2 py-1 rounded-full animate-pump">
+                  <div className="absolute -top-1 -right-1 bg-[#ffbe0b] text-black text-xs font-bold px-1 sm:px-2 py-1 rounded-full animate-pump">
                     NEW
                   </div>
                 )}
@@ -73,7 +73,7 @@ export default function MenuPage() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {filteredPizzas.map((pizza) => (
             <ProductCard
               key={pizza.id}

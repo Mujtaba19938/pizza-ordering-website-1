@@ -66,7 +66,7 @@ export function HeroSection() {
       
       {/* Main Content Layer - Static */}
       <div className="max-w-7xl mx-auto w-full relative z-20">
-        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
           {/* Left Side - Text Content */}
           <div className="relative">
             <div className="space-y-5 sm:space-y-6">
@@ -109,7 +109,7 @@ export function HeroSection() {
           </div>
 
           {/* Right Side - Pizza Animation */}
-          <div className="hidden lg:flex justify-center items-center">
+          <div className="flex justify-center items-center mt-8 lg:mt-0">
             <div className="pizza-container">
               <div className="pizza-rotator">
                 <img
