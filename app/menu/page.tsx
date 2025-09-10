@@ -43,15 +43,15 @@ export default function MenuPage() {
         </div>
 
         {/* Category Filter - Pill Navigation */}
-        <div className="flex flex-wrap justify-center mb-8 sm:mb-12 px-2">
-          <div className="bg-gray-100 p-0.5 sm:p-1 rounded-full inline-flex gap-0.5 sm:gap-1 overflow-x-auto w-full sm:w-auto">
+        <div className="flex justify-center mb-8 sm:mb-12 px-2">
+          <div className="bg-gray-100 p-0.5 rounded-full inline-flex gap-0.5">
             {categories.map((category) => (
               <div key={category} className="relative flex-shrink-0">
                 <button
                   onClick={() => setSelectedCategory(category)}
-                  className={`pill-nav-button px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                  className={`pill-nav-button px-2 sm:px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all duration-200 ${
                     selectedCategory === category
-                      ? "bg-[#d62828] text-white shadow-md transform scale-105"
+                      ? "bg-[#d62828] text-white shadow-sm"
                       : "text-gray-600 hover:text-[#d62828] hover:bg-white hover:shadow-sm"
                   }`}
                   style={{
@@ -63,7 +63,7 @@ export default function MenuPage() {
                   {category}
                 </button>
                 {category === "Desserts" && (
-                  <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 bg-[#ffbe0b] text-black text-xs font-bold px-1 sm:px-1.5 py-0.5 sm:py-1 rounded-full animate-pump">
+                  <div className="absolute -top-0.5 -right-0.5 bg-[#ffbe0b] text-black text-xs font-bold px-1 py-0.5 rounded-full animate-pump">
                     NEW
                   </div>
                 )}
