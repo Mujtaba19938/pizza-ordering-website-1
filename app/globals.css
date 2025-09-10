@@ -270,14 +270,9 @@
   animation: hero-spin 1.25s ease-in-out;
 }
 
-/* Continuous smooth rotation */
-@keyframes hero-rotate-infinite {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
+/* Legacy animation class - now handled by pizza-rotator */
 .animate-hero-rotate {
-  animation: hero-rotate-infinite 30s linear infinite;
+  animation: pizza-rotate 30s linear infinite;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -434,28 +429,16 @@
   will-change: transform, opacity;
 }
 
-/* Promotional banner scroll animation */
+/* GPU-Optimized Banner Animation */
 @keyframes banner-scroll {
   0% {
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(100vw, 0, 0);
   }
   100% {
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100vw, 0, 0);
   }
 }
 
-.animate-banner-scroll {
-  animation: banner-scroll 30s linear infinite;
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  animation-fill-mode: none;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-play-state: running;
-}
-
-/* Isolated animation layers */
 .banner-animation {
   position: absolute;
   top: 0;
@@ -463,10 +446,64 @@
   width: 100%;
   height: 3rem;
   z-index: 20;
-  contain: layout style paint;
+  contain: strict;
   isolation: isolate;
   transform: translateZ(0);
   backface-visibility: hidden;
+  will-change: transform;
+}
+
+.banner-scroll-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  contain: layout style paint;
+}
+
+.banner-text-track {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  white-space: nowrap;
+  animation: banner-scroll 40s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.banner-text-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-right: 3rem;
+  will-change: transform;
+}
+
+.banner-exclamation {
+  color: #dc2626;
+  font-weight: 900;
+  font-size: 1.125rem;
+  text-shadow: 
+    2px 2px 0px #8b0000,
+    -1px -1px 0px #8b0000,
+    1px -1px 0px #8b0000,
+    -1px 1px 0px #8b0000;
+  transform: perspective(100px) rotateX(15deg);
+  will-change: transform;
+}
+
+/* GPU-Optimized Pizza Animation */
+@keyframes pizza-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .pizza-animation {
@@ -475,14 +512,65 @@
   right: 1rem;
   transform: translateY(-50%);
   z-index: 10;
-  contain: layout style paint;
+  contain: strict;
   isolation: isolate;
   pointer-events: none;
+  will-change: transform;
+}
+
+.pizza-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  contain: layout style paint;
+}
+
+.pizza-rotator {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pizza-rotate 30s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.pizza-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+@media (min-width: 640px) {
+  .pizza-container {
+    width: 380px;
+    height: 380px;
+  }
+  .banner-text-item {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .pizza-container {
+    width: 520px;
+    height: 520px;
+  }
 }
 
 @media (min-width: 1024px) {
   .pizza-animation {
     right: 2rem;
+  }
+  .pizza-container {
+    width: 560px;
+    height: 560px;
   }
 }
 
@@ -513,7 +601,8 @@
   .animate-float-slow-delay-3,
   .animate-float-slow-delay-4,
   .animate-pump,
-  .animate-banner-scroll {
+  .banner-text-track,
+  .pizza-rotator {
     animation: none;
   }
 }

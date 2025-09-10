@@ -38,21 +38,32 @@ export function HeroSection() {
 
   return (
     <section className="bg-[#d62828] hero-texture text-white pt-20 sm:pt-24 pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden min-h-[540px] md:min-h-[680px] flex items-center">
-      {/* Banner Animation Layer - Isolated */}
+      {/* Banner Animation Layer - GPU Optimized */}
       <div className="banner-animation absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
-        <div className="animate-banner-scroll flex items-center h-full" style={{ contain: 'layout style paint' }}>
-          <div className="flex items-center gap-12 whitespace-nowrap">
+        <div className="banner-scroll-container">
+          <div className="banner-text-track">
             {/* Multiple repetitions for seamless infinite scroll */}
-            {Array.from({ length: 6 }, (_, i) => (
-              <span key={i} className="text-sm sm:text-base font-bold flex items-center gap-2 flex-shrink-0">
+            {Array.from({ length: 8 }, (_, i) => (
+              <span key={i} className="banner-text-item">
                 <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
                 <span>Deal : Buy one large pizza and get one large pizza free</span>
-                <span className="text-red-600 font-black text-lg" style={{ 
-                  textShadow: '2px 2px 0px #8b0000, -1px -1px 0px #8b0000, 1px -1px 0px #8b0000, -1px 1px 0px #8b0000',
-                  transform: 'perspective(100px) rotateX(15deg)'
-                }}>!</span>
+                <span className="banner-exclamation">!</span>
               </span>
             ))}
+          </div>
+        </div>
+      </div>
+      
+      {/* Pizza Animation Layer - GPU Optimized */}
+      <div className="pizza-animation absolute top-1/2 right-4 lg:right-8 transform -translate-y-1/2 z-10 pointer-events-none">
+        <div className="pizza-container">
+          <div className="pizza-rotator">
+            <img
+              key={currentIndex}
+              src={slides[currentIndex].image}
+              alt="Delicious Pizza"
+              className={`pizza-image ${isFading ? 'fade-out-200' : 'fade-in-200'}`}
+            />
           </div>
         </div>
       </div>
@@ -61,7 +72,7 @@ export function HeroSection() {
       <div className="hero-grain hero-grain-strong" />
       <BackgroundIcons />
       
-      {/* Main Content Layer */}
+      {/* Main Content Layer - Static */}
       <div className="max-w-7xl mx-auto w-full relative z-20">
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Side - Text Content */}
@@ -102,18 +113,9 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Side - Pizza Image Carousel */}
-          <div className="flex justify-center lg:justify-end z-10 relative mt-8 lg:mt-0">
-            <div className="relative" style={{ contain: 'layout style paint' }}>
-              <div className="w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] md:w-[520px] md:h-[520px] lg:w-[560px] lg:h-[560px] rounded-full flex items-center justify-center animate-hero-rotate">
-                <img
-                  key={currentIndex}
-                  src={slides[currentIndex].image}
-                  alt="Delicious Pizza"
-                  className={`w-full h-full object-contain ${isFading ? 'fade-out-200' : 'fade-in-200'}`}
-                />
-              </div>
-            </div>
+          {/* Right Side - Spacer for Pizza Animation */}
+          <div className="hidden lg:block">
+            {/* This div provides space for the pizza animation without interfering */}
           </div>
         </div>
       </div>
