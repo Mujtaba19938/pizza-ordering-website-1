@@ -37,7 +37,18 @@ export function HeroSection() {
   }
 
   return (
-    <section className="bg-[#d62828] hero-texture text-white py-16 sm:py-20 px-4 sm:px-6 relative overflow-hidden min-h-[540px] md:min-h-[680px] flex items-center">
+    <section className="bg-[#d62828] hero-texture text-white pt-20 sm:pt-24 pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden min-h-[540px] md:min-h-[680px] flex items-center">
+      {/* Promotional Banner */}
+      <div className="absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
+        <div className="animate-banner-scroll flex items-center h-full">
+          <div className="flex items-center gap-8 whitespace-nowrap">
+            <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
+            <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
+            <span className="text-sm sm:text-base font-bold">Tuesday & Thursday Deal : Buy one large pizza and get one large pizza free !</span>
+          </div>
+        </div>
+      </div>
+      
       <div className="hero-grain hero-grain-strong" />
       {/* Background vegetable icons */}
       <BackgroundIcons />

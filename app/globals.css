@@ -431,6 +431,20 @@
   will-change: transform, opacity;
 }
 
+/* Promotional banner scroll animation */
+@keyframes banner-scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-banner-scroll {
+  animation: banner-scroll 20s linear infinite;
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .animate-float-slow,
@@ -438,7 +452,8 @@
   .animate-float-slow-delay-2,
   .animate-float-slow-delay-3,
   .animate-float-slow-delay-4,
-  .animate-pump {
+  .animate-pump,
+  .animate-banner-scroll {
     animation: none;
   }
 }
