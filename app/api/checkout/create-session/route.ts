@@ -99,8 +99,8 @@ export async function POST(req: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
-      success_url: `https://v0-animated-pizza-order-tracking.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://v0-animated-pizza-order-tracking.vercel.app/cancel`,
+      success_url: `https://pizza-ordering-website-two.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://pizza-ordering-website-two.vercel.app/cancel`,
       metadata: { orderId: String(orderId) },
       billing_address_collection: "required",
       allow_promotion_codes: true,

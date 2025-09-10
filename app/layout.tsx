@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   description: "Order delicious pizzas online",
   generator: "v0.app",
   icons: {
-    icon: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png",
-    shortcut: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png",
-    apple: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png",
+    icon: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png?v=2",
+    shortcut: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png?v=2",
+    apple: "/930437e4-11b0-42a8-9474-31ec620146ca-removebg-preview.png?v=2",
   },
 }
 
@@ -27,6 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script src="/sw-unregister.js" async></script>
+      </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <Suspense fallback={null}>
           <CartProvider>

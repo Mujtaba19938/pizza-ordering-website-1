@@ -1,7 +1,14 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { headers } from "next/headers"
+
+export const revalidate = 0 // Force revalidation on every request
 
 export default function CancelPage() {
+  // Force fresh content on every load
+  const headersList = headers()
+  const timestamp = Date.now()
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
@@ -27,6 +34,9 @@ export default function CancelPage() {
             </Button>
           </div>
         </div>
+        
+        {/* Hidden timestamp to prevent caching */}
+        <div style={{ display: 'none' }}>{timestamp}</div>
       </div>
     </div>
   )
