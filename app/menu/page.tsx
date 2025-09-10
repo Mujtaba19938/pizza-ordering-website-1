@@ -6,7 +6,7 @@ import { pizzas } from "@/data/pizzas"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 
-const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty"]
+const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty", "Desserts"]
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -28,18 +28,24 @@ export default function MenuPage() {
         {/* Category Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories.map((category) => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
-              onClick={() => setSelectedCategory(category)}
-              className={
-                selectedCategory === category
-                  ? "bg-[#d62828] text-white hover:bg-[#b91c1c]"
-                  : "border-[#d62828] text-[#d62828] hover:bg-[#d62828] hover:text-white"
-              }
-            >
-              {category}
-            </Button>
+            <div key={category} className="relative">
+              <Button
+                variant={selectedCategory === category ? "default" : "outline"}
+                onClick={() => setSelectedCategory(category)}
+                className={
+                  selectedCategory === category
+                    ? "bg-[#d62828] text-white hover:bg-[#b91c1c]"
+                    : "border-[#d62828] text-[#d62828] hover:bg-[#d62828] hover:text-white"
+                }
+              >
+                {category}
+              </Button>
+              {category === "Desserts" && (
+                <div className="absolute -top-2 -right-2 bg-[#ffbe0b] text-black text-xs font-bold px-2 py-1 rounded-full animate-pump">
+                  NEW
+                </div>
+              )}
+            </div>
           ))}
         </div>
 

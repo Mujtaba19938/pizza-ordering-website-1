@@ -407,13 +407,28 @@
   animation: float-slow-delay-4 15s ease-in-out infinite;
 }
 
+/* Pumping animation for NEW label */
+@keyframes pump {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-pump {
+  animation: pump 1.5s ease-in-out infinite;
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .animate-float-slow,
   .animate-float-slow-delay-1,
   .animate-float-slow-delay-2,
   .animate-float-slow-delay-3,
-  .animate-float-slow-delay-4 {
+  .animate-float-slow-delay-4,
+  .animate-pump {
     animation: none;
   }
 }
