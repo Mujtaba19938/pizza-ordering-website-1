@@ -16,7 +16,7 @@ interface ProductCardProps {
 
 export function ProductCard({ id, name, price, image, description, onClick }: ProductCardProps) {
   return (
-    <Card className="group overflow-hidden rounded-2xl border-0 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <Card className="group overflow-hidden rounded-2xl border-0 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 py-0">
       <CardContent className="p-0">
         <div className="relative aspect-square overflow-hidden">
           <Image
