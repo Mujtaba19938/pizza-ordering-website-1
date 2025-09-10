@@ -49,23 +49,11 @@ export function HeroSection() {
         </div>
       </div>
       
-      {/* Pizza Animation Layer - Isolated */}
-      <div className="pizza-animation absolute top-1/2 right-4 lg:right-8 transform -translate-y-1/2 z-10 pointer-events-none">
-        <div className="w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] md:w-[520px] md:h-[520px] lg:w-[560px] lg:h-[560px] rounded-full flex items-center justify-center animate-hero-rotate" style={{ contain: 'layout style paint' }}>
-          <img
-            key={currentIndex}
-            src={slides[currentIndex].image}
-            alt="Delicious Pizza"
-            className={`w-full h-full object-contain ${isFading ? 'fade-out-200' : 'fade-in-200'}`}
-          />
-        </div>
-      </div>
-      
       {/* Background Effects Layer */}
       <div className="hero-grain hero-grain-strong" />
       <BackgroundIcons />
       
-      {/* Main Content Layer - No Animations */}
+      {/* Main Content Layer */}
       <div className="max-w-7xl mx-auto w-full relative z-20">
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Side - Text Content */}
@@ -106,9 +94,18 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Side - Spacer for Pizza Animation */}
-          <div className="hidden lg:block">
-            {/* This div provides space for the pizza animation without interfering */}
+          {/* Right Side - Pizza Image Carousel */}
+          <div className="flex justify-center lg:justify-end z-10 relative mt-8 lg:mt-0">
+            <div className="relative" style={{ contain: 'layout style paint' }}>
+              <div className="w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] md:w-[520px] md:h-[520px] lg:w-[560px] lg:h-[560px] rounded-full flex items-center justify-center animate-hero-rotate">
+                <img
+                  key={currentIndex}
+                  src={slides[currentIndex].image}
+                  alt="Delicious Pizza"
+                  className={`w-full h-full object-contain ${isFading ? 'fade-out-200' : 'fade-in-200'}`}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
