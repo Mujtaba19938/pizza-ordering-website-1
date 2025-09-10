@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/navbar"
 import { ProductCard } from "@/components/product-card"
+import { PopupProductCard } from "@/components/popup-product-card"
 import { pizzas } from "@/data/pizzas"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -10,9 +11,21 @@ const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty", "Desser
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedPizza, setSelectedPizza] = useState<any>(null)
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
 
   const filteredPizzas =
     selectedCategory === "All" ? pizzas : pizzas.filter((pizza) => pizza.category === selectedCategory)
+
+  const handlePizzaClick = (pizza: any) => {
+    setSelectedPizza(pizza)
+    setIsPopupOpen(true)
+  }
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false)
+    setSelectedPizza(null)
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -52,16 +65,26 @@ export default function MenuPage() {
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPizzas.map((pizza) => (
-            <ProductCard
-              key={pizza.id}
-              id={pizza.id.toString()}
-              name={pizza.name}
-              price={pizza.prices.medium}
-              image={pizza.image}
-              description={pizza.description}
-            />
+            <div key={pizza.id} onClick={() => handlePizzaClick(pizza)} className="cursor-pointer">
+              <ProductCard
+                id={pizza.id.toString()}
+                name={pizza.name}
+                price={pizza.prices.medium}
+                image={pizza.image}
+                description={pizza.description}
+              />
+            </div>
           ))}
         </div>
+
+        {/* Popup Product Card */}
+        {selectedPizza && (
+          <PopupProductCard
+            pizza={selectedPizza}
+            isOpen={isPopupOpen}
+            onClose={handleClosePopup}
+          />
+        )}
       </div>
     </div>
   )
