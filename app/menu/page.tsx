@@ -32,34 +32,42 @@ export default function MenuPage() {
       <Navbar />
       <div className="container mx-auto px-6 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-[#d62828] mb-4">Our Menu</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <h1 className="text-5xl font-bold text-[#d62828] mb-4 inline-block px-8 py-2 bg-white shadow-lg" style={{ borderRadius: '9999px' }}>
+            Our Menu
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mt-6">
             Discover our delicious selection of handcrafted pizzas made with the finest ingredients
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
-            <div key={category} className="relative">
-              <Button
-                variant={selectedCategory === category ? "default" : "outline"}
-                onClick={() => setSelectedCategory(category)}
-                className={
-                  selectedCategory === category
-                    ? "bg-[#d62828] text-white hover:bg-[#b91c1c]"
-                    : "border-[#d62828] text-[#d62828] hover:bg-[#d62828] hover:text-white"
-                }
-              >
-                {category}
-              </Button>
-              {category === "Desserts" && (
-                <div className="absolute -top-2 -right-2 bg-[#ffbe0b] text-black text-xs font-bold px-2 py-1 rounded-full animate-pump">
-                  NEW
-                </div>
-              )}
-            </div>
-          ))}
+        {/* Category Filter - Pill Navigation */}
+        <div className="flex flex-wrap justify-center mb-12">
+          <div className="bg-gray-100 p-1 rounded-full inline-flex gap-1">
+            {categories.map((category) => (
+              <div key={category} className="relative">
+                <button
+                  onClick={() => setSelectedCategory(category)}
+                  className={`pill-nav-button px-6 py-3 text-sm font-semibold ${
+                    selectedCategory === category
+                      ? "bg-[#d62828] text-white shadow-lg transform scale-105"
+                      : "text-gray-600 hover:text-[#d62828] hover:bg-white hover:shadow-md"
+                  }`}
+                  style={{
+                    borderRadius: '9999px',
+                    border: 'none',
+                    outline: 'none'
+                  }}
+                >
+                  {category}
+                </button>
+                {category === "Desserts" && (
+                  <div className="absolute -top-1 -right-1 bg-[#ffbe0b] text-black text-xs font-bold px-2 py-1 rounded-full animate-pump">
+                    NEW
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Product Cards Grid */}

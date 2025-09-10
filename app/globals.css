@@ -480,6 +480,25 @@
   }
 }
 
+/* Pill Navigation Hover Effects */
+.hover-scale-102 {
+  transform: scale(1.02);
+}
+
+/* Smooth pill navigation transitions */
+.pill-nav-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, background-color, color, box-shadow;
+}
+
+.pill-nav-button:hover {
+  transform: scale(1.02);
+}
+
+.pill-nav-button:active {
+  transform: scale(0.98);
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .animate-float-slow,
