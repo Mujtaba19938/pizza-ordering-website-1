@@ -73,13 +73,24 @@ export function MenuGrid() {
     }
 
     // Show success toast notification
+    const getItemType = (category: string) => {
+      switch (category) {
+        case "Desserts":
+          return "Dessert"
+        case "Drinks":
+          return "Drink"
+        default:
+          return "Pizza"
+      }
+    }
+
     toast({
       title: (
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
             <Check className="w-4 h-4 text-white" />
           </div>
-          <span className="font-semibold">Pizza Added to Cart!</span>
+          <span className="font-semibold">{getItemType(pizza.category)} Added to Cart!</span>
         </div>
       ),
       description: `${quantity} x ${pizza.name} (${size}) has been added to your cart.`,

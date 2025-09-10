@@ -134,7 +134,9 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
             <Check className="w-4 h-4 text-white" />
           </div>
           <span className="font-semibold">
-            {pizza.category === "Drinks" ? "Drink Added to Cart!" : "Pizza Added to Cart!"}
+            {pizza.category === "Drinks" ? "Drink Added to Cart!" : 
+             pizza.category === "Desserts" ? "Dessert Added to Cart!" : 
+             "Pizza Added to Cart!"}
           </span>
         </div>
       ),
