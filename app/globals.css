@@ -534,9 +534,6 @@
   contain: layout style paint;
   transform: translateZ(0);
   will-change: transform;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
 }
 
 .pizza-rotator {
