@@ -66,7 +66,7 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
   const calculatePrice = () => {
     const basePrice = pizza.prices?.medium || pizza.price || 0
     const sizePrice = sizeOptions.find((s) => s.id === selectedSize)?.price || 0
-    const crustPrice = crustOptions.find((c) => c.id === selectedCrust)?.price || 0
+    const crustPrice = pizza.category === "Drinks" ? 0 : (crustOptions.find((c) => c.id === selectedCrust)?.price || 0)
     const toppingsPrice = selectedToppings.reduce((total, toppingId) => {
       const topping = toppingOptions.find((t) => t.id === toppingId)
       return total + (topping?.price || 0)
@@ -104,7 +104,9 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
           <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
             <Check className="w-4 h-4 text-white" />
           </div>
-          <span className="font-semibold">Pizza Added to Cart!</span>
+          <span className="font-semibold">
+            {pizza.category === "Drinks" ? "Drink Added to Cart!" : "Pizza Added to Cart!"}
+          </span>
         </div>
       ),
       description: `${quantity} x ${pizza.name} (${sizeKey}) has been added to your cart.`,
@@ -189,34 +191,38 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
               </div>
             </div>
 
-            {/* Crust Selection */}
-            <div>
-              <Label className="text-lg font-semibold mb-3 block">Crust</Label>
-              <div className="grid grid-cols-3 gap-3">
-                {crustOptions.map((crust) => {
-                  const active = selectedCrust === crust.id
-                  return (
-                    <button
-                      key={crust.id}
-                      type="button"
-                      onClick={() => setSelectedCrust(crust.id)}
-                      className={`rounded-2xl border px-4 py-3 text-left transition-all bg-white/50 hover:bg-white/70 backdrop-blur-sm ${
-                        active ? 'border-[#d62828] ring-2 ring-[#d62828]/40 shadow-md' : 'border-black/10'
-                      }`}
-                    >
-                      <div className="font-semibold text-sm">{crust.label}</div>
-                      {crust.price > 0 && (
-                        <div className="text-xs text-muted-foreground">(+${crust.price.toFixed(2)})</div>
-                      )}
-                    </button>
-                  )
-                })}
+            {/* Crust Selection - Only for non-drinks */}
+            {pizza.category !== "Drinks" && (
+              <div>
+                <Label className="text-lg font-semibold mb-3 block">Crust</Label>
+                <div className="grid grid-cols-3 gap-3">
+                  {crustOptions.map((crust) => {
+                    const active = selectedCrust === crust.id
+                    return (
+                      <button
+                        key={crust.id}
+                        type="button"
+                        onClick={() => setSelectedCrust(crust.id)}
+                        className={`rounded-2xl border px-4 py-3 text-left transition-all bg-white/50 hover:bg-white/70 backdrop-blur-sm ${
+                          active ? 'border-[#d62828] ring-2 ring-[#d62828]/40 shadow-md' : 'border-black/10'
+                        }`}
+                      >
+                        <div className="font-semibold text-sm">{crust.label}</div>
+                        {crust.price > 0 && (
+                          <div className="text-xs text-muted-foreground">(+${crust.price.toFixed(2)})</div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Toppings Selection */}
+            {/* Toppings/Add-ons Selection */}
             <div>
-              <Label className="text-lg font-semibold mb-3 block">Extra Toppings</Label>
+              <Label className="text-lg font-semibold mb-3 block">
+                {pizza.category === "Drinks" ? "Add-ons" : "Extra Toppings"}
+              </Label>
               <div className="flex flex-wrap gap-2">
                 {toppingOptions.map((topping) => {
                   const checked = selectedToppings.includes(topping.id)
