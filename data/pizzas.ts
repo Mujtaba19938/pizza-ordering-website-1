@@ -113,13 +113,13 @@ export const pizzas: Pizza[] = [
   },
   {
     id: 11,
-    name: "Cheesecake",
-    description: "New York style cheesecake with berry compote",
-    image: "/cheesecake.jpg",
+    name: "Cherry Cheesecake",
+    description: "New York style cheesecake with cherry compote",
+    image: "/cherry-cheesecake.jpg",
     prices: { small: 6, medium: 9, large: 12 },
     category: "Desserts",
-    toppings: ["Cream Cheese", "Berry Compote"],
-    availableToppings: ["Chocolate Sauce", "Fresh Berries"],
+    toppings: ["Cream Cheese", "Cherry Compote"],
+    availableToppings: ["Chocolate Sauce", "Fresh Cherries"],
     crustOptions: [],
   },
   {
