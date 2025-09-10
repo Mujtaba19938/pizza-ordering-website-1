@@ -271,31 +271,6 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
               </div>
             </div>
 
-            {/* Quantity */}
-            <div>
-              <Label className="text-lg font-semibold mb-3 block">Quantity</Label>
-              <div className="flex items-center space-x-4">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  disabled={quantity <= 1}
-                  className="w-10 h-10"
-                >
-                  <Minus className="w-4 h-4" />
-                </Button>
-                <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
-                <Button 
-                  variant="outline" 
-                  size="icon" 
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="w-10 h-10"
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
             {/* Cold Drinks Section - Only show for non-drink items */}
             {pizza.category !== "Drinks" && (
               <div className="space-y-4">
@@ -324,6 +299,31 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
                 </div>
               </div>
             )}
+
+            {/* Quantity */}
+            <div>
+              <Label className="text-lg font-semibold mb-3 block">Quantity</Label>
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={quantity <= 1}
+                  className="w-10 h-10"
+                >
+                  <Minus className="w-4 h-4" />
+                </Button>
+                <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-10 h-10"
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
 
             {/* Add to Cart Button */}
             <Button
