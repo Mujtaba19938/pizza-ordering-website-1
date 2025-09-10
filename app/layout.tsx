@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   title: "FoodKing - Pizza Ordering",
   description: "Order delicious pizzas online",
   generator: "v0.app",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 }
 
 export default function RootLayout({
