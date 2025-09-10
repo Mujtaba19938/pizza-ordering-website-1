@@ -10,9 +10,10 @@ import { useState, useEffect } from "react"
 import { Phone, Mail, User, ArrowLeft, CheckCircle } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function AccountPage() {
-  const [step, setStep] = useState<'phone' | 'otp' | 'details' | 'success'>('phone')
+  const [step, setStep] = useState<'details' | 'otp' | 'success'>('details')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [otp, setOtp] = useState('')
   const [userDetails, setUserDetails] = useState({
@@ -25,6 +26,7 @@ export default function AccountPage() {
   const [countdown, setCountdown] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
+  const { login } = useAuth()
   const router = useRouter()
 
   // Countdown timer for OTP resend
@@ -50,9 +52,18 @@ export default function AccountPage() {
     return phoneNumber
   }
 
-  const handlePhoneSubmit = async (e: React.FormEvent) => {
+  const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (phoneNumber.replace(/\D/g, '').length !== 10) {
+    if (!userDetails.name || !userDetails.email || !userDetails.phone) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        className: "border-red-200 bg-red-50 text-red-800",
+      })
+      return
+    }
+
+    if (userDetails.phone.replace(/\D/g, '').length !== 10) {
       toast({
         title: "Invalid Phone Number",
         description: "Please enter a valid 10-digit phone number.",
@@ -72,7 +83,7 @@ export default function AccountPage() {
       
       toast({
         title: "OTP Sent!",
-        description: `Verification code sent to ${phoneNumber}`,
+        description: `Verification code sent to ${userDetails.phone}`,
         className: "border-green-200 bg-green-50 text-green-800",
       })
     }, 1500)
@@ -94,50 +105,26 @@ export default function AccountPage() {
     // Simulate OTP verification
     setTimeout(() => {
       setOtpVerified(true)
-      setStep('details')
-      setIsLoading(false)
-      
-      toast({
-        title: "Phone Verified!",
-        description: "Your phone number has been verified successfully.",
-        className: "border-green-200 bg-green-50 text-green-800",
-      })
-    }, 1000)
-  }
-
-  const handleDetailsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!userDetails.name || !userDetails.email) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields.",
-        className: "border-red-200 bg-red-50 text-red-800",
-      })
-      return
-    }
-
-    setIsLoading(true)
-    
-    // Simulate account creation
-    setTimeout(() => {
       setStep('success')
       setIsLoading(false)
       
-      // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify({
+      // Store user data and login
+      const userData = {
         ...userDetails,
-        phone: phoneNumber,
+        phone: userDetails.phone,
         verified: true,
         createdAt: new Date().toISOString()
-      }))
+      }
+      login(userData)
       
       toast({
         title: "Account Created!",
         description: "Welcome! Your account has been created successfully.",
         className: "border-green-200 bg-green-50 text-green-800",
       })
-    }, 1500)
+    }, 1000)
   }
+
 
   const handleResendOtp = () => {
     if (countdown > 0) return
@@ -145,18 +132,16 @@ export default function AccountPage() {
     setCountdown(60)
     toast({
       title: "OTP Resent!",
-      description: `New verification code sent to ${phoneNumber}`,
+      description: `New verification code sent to ${userDetails.phone}`,
       className: "border-green-200 bg-green-50 text-green-800",
     })
   }
 
   const handleBack = () => {
     if (step === 'otp') {
-      setStep('phone')
+      setStep('details')
       setOtpSent(false)
       setOtp('')
-    } else if (step === 'details') {
-      setStep('otp')
     }
   }
 
@@ -170,7 +155,7 @@ export default function AccountPage() {
       
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-md mx-auto">
-          <Card className="bg-[#2d5016] border-0 shadow-2xl">
+          <Card className="bg-[#d62828] border-0 shadow-2xl">
             <CardHeader className="text-center pb-6">
               <CardTitle className="text-3xl font-bold text-white mb-2">
                 Your Account
@@ -181,31 +166,67 @@ export default function AccountPage() {
             </CardHeader>
             
             <CardContent className="px-8 pb-8">
-              {/* Phone Number Step */}
-              {step === 'phone' && (
-                <form onSubmit={handlePhoneSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-white font-semibold text-sm">
-                      Your Phone *
-                    </Label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="Type your phone number"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(formatPhoneNumber(e.target.value))}
-                        className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-yellow-400 focus:ring-yellow-400"
-                        maxLength={14}
-                      />
+              {/* User Details Step */}
+              {step === 'details' && (
+                <form onSubmit={handleDetailsSubmit} className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-white font-semibold text-sm">
+                        Your Name *
+                      </Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Input
+                          id="name"
+                          type="text"
+                          placeholder="Type your full name"
+                          value={userDetails.name}
+                          onChange={(e) => setUserDetails(prev => ({ ...prev, name: e.target.value }))}
+                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-white font-semibold text-sm">
+                        Your Email *
+                      </Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="Type your email address"
+                          value={userDetails.email}
+                          onChange={(e) => setUserDetails(prev => ({ ...prev, email: e.target.value }))}
+                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="phone" className="text-white font-semibold text-sm">
+                        Your Phone *
+                      </Label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="Type your phone number"
+                          value={userDetails.phone}
+                          onChange={(e) => setUserDetails(prev => ({ ...prev, phone: formatPhoneNumber(e.target.value) }))}
+                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
+                          maxLength={14}
+                        />
+                      </div>
                     </div>
                   </div>
                   
                   <Button
                     type="submit"
-                    disabled={isLoading || phoneNumber.replace(/\D/g, '').length !== 10}
-                    className="w-full bg-[#ffbe0b] hover:bg-[#e6a800] text-black font-bold text-lg py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isLoading || !userDetails.name || !userDetails.email || userDetails.phone.replace(/\D/g, '').length !== 10}
+                    className="w-full bg-white hover:bg-gray-100 text-black font-bold text-lg py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? "Sending..." : "CONTINUE"}
                   </Button>
@@ -222,7 +243,7 @@ export default function AccountPage() {
                     <h3 className="text-white font-semibold text-lg mb-2">Verify Your Phone</h3>
                     <p className="text-gray-300 text-sm">
                       We sent a 6-digit code to <br />
-                      <span className="text-white font-medium">{phoneNumber}</span>
+                      <span className="text-white font-medium">{userDetails.phone}</span>
                     </p>
                   </div>
 
@@ -266,99 +287,13 @@ export default function AccountPage() {
                   <Button
                     type="submit"
                     disabled={isLoading || otp.length !== 6}
-                    className="w-full bg-[#ffbe0b] hover:bg-[#e6a800] text-black font-bold text-lg py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-white hover:bg-gray-100 text-black font-bold text-lg py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? "Verifying..." : "VERIFY"}
                   </Button>
                 </form>
               )}
 
-              {/* User Details Step */}
-              {step === 'details' && (
-                <form onSubmit={handleDetailsSubmit} className="space-y-6">
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle className="w-8 h-8 text-green-600" />
-                    </div>
-                    <h3 className="text-white font-semibold text-lg mb-2">Complete Your Profile</h3>
-                    <p className="text-gray-300 text-sm">
-                      Almost done! Just a few more details to complete your account.
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="text-white font-semibold text-sm">
-                        Your Name *
-                      </Label>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                        <Input
-                          id="name"
-                          type="text"
-                          placeholder="Type your full name"
-                          value={userDetails.name}
-                          onChange={(e) => setUserDetails(prev => ({ ...prev, name: e.target.value }))}
-                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-yellow-400 focus:ring-yellow-400"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="text-white font-semibold text-sm">
-                        Your Email *
-                      </Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="Type your email address"
-                          value={userDetails.email}
-                          onChange={(e) => setUserDetails(prev => ({ ...prev, email: e.target.value }))}
-                          className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-yellow-400 focus:ring-yellow-400"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="phone-display" className="text-white font-semibold text-sm">
-                        Your Phone *
-                      </Label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                        <Input
-                          id="phone-display"
-                          type="text"
-                          value={phoneNumber}
-                          disabled
-                          className="pl-10 bg-gray-700 border-gray-600 text-gray-300 cursor-not-allowed"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={handleBack}
-                      className="text-gray-300 hover:text-white p-0"
-                    >
-                      <ArrowLeft className="w-4 h-4 mr-2" />
-                      Back
-                    </Button>
-                  </div>
-                  
-                  <Button
-                    type="submit"
-                    disabled={isLoading || !userDetails.name || !userDetails.email}
-                    className="w-full bg-[#ffbe0b] hover:bg-[#e6a800] text-black font-bold text-lg py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? "Creating Account..." : "CONTINUE"}
-                  </Button>
-                </form>
-              )}
 
               {/* Success Step */}
               {step === 'success' && (
@@ -376,7 +311,7 @@ export default function AccountPage() {
 
                   <Button
                     onClick={handleContinueToProfile}
-                    className="w-full bg-[#ffbe0b] hover:bg-[#e6a800] text-black font-bold text-lg py-3 rounded-lg"
+                    className="w-full bg-white hover:bg-gray-100 text-black font-bold text-lg py-3 rounded-lg"
                   >
                     GO TO PROFILE
                   </Button>
