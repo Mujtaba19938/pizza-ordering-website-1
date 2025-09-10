@@ -93,7 +93,7 @@ export const pizzas: Pizza[] = [
     id: 9,
     name: "Chocolate Lava Cake",
     description: "Warm chocolate cake with molten center, vanilla ice cream",
-    image: "/20250325120225-how-20to-20make-20chocolate-20molten-20lava-20cake-20in-20the-20microwave.webp",
+    image: "/chocolate-lava-cake.webp",
     prices: { small: 8, medium: 12, large: 16 },
     category: "Desserts",
     toppings: ["Chocolate", "Vanilla Ice Cream"],
