@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Minus, Plus, X, Check } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
 import { useToast } from "@/hooks/use-toast"
+import { pizzas } from "@/data/pizzas"
 import type { Pizza } from "@/contexts/cart-context"
 
 interface PopupProductCardProps {
@@ -50,6 +51,9 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
   const [quantity, setQuantity] = useState(1)
   const [isAnimating, setIsAnimating] = useState(false)
 
+  // Get drinks from the pizzas data
+  const drinks = pizzas.filter(p => p.category === "Drinks")
+
   useEffect(() => {
     if (isOpen) {
       // Small delay to ensure smooth animation start
@@ -79,6 +83,31 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
       setSelectedToppings([...selectedToppings, toppingId])
     } else {
       setSelectedToppings(selectedToppings.filter((id) => id !== toppingId))
+    }
+  }
+
+  const handleDrinkAdd = (drinkId: number, drinkName: string) => {
+    const drink = pizzas.find(p => p.id === drinkId)
+    if (drink) {
+      addToCart({
+        pizza: drink,
+        size: "medium",
+        selectedToppings: [],
+        selectedCrust: undefined,
+      })
+
+      toast({
+        title: (
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <Check className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-semibold">Drink Added to Cart!</span>
+          </div>
+        ),
+        description: `${drinkName} has been added to your cart.`,
+        className: "border-green-200 bg-green-50 text-green-800",
+      })
     }
   }
 
@@ -242,40 +271,68 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
               </div>
             </div>
 
-            {/* Quantity and Add to Cart */}
-            <div className="space-y-4">
-              <div>
-                <Label className="text-lg font-semibold mb-3 block">Quantity</Label>
-                <div className="flex items-center space-x-4">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
-                    className="w-10 h-10"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </Button>
-                  <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
-                  <Button 
-                    variant="outline" 
-                    size="icon" 
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-10"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </Button>
+            {/* Quantity */}
+            <div>
+              <Label className="text-lg font-semibold mb-3 block">Quantity</Label>
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={quantity <= 1}
+                  className="w-10 h-10"
+                >
+                  <Minus className="w-4 h-4" />
+                </Button>
+                <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-10 h-10"
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Cold Drinks Section - Only show for non-drink items */}
+            {pizza.category !== "Drinks" && (
+              <div className="space-y-4">
+                <div className="border-t border-gray-200 pt-4">
+                  <Label className="text-lg font-semibold mb-3 block flex items-center gap-2">
+                    <span className="text-2xl">🥤</span>
+                    Cold Drinks
+                  </Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {drinks.map((drink) => (
+                      <div key={drink.id} className="flex items-center justify-between bg-gray-50 rounded-lg p-3 border border-gray-200">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">{drink.name}</p>
+                          <p className="text-xs text-gray-500">${drink.prices.medium}</p>
+                        </div>
+                        <Button
+                          size="sm"
+                          onClick={() => handleDrinkAdd(drink.id, drink.name)}
+                          className="h-8 w-8 p-0 bg-[#d62828] hover:bg-[#b91c1c] text-white rounded-full"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+            )}
 
-              <Button
-                onClick={handleAddToCart}
-                className="w-full bg-[#d62828] hover:bg-[#b91c1c] text-white py-4 text-lg font-semibold rounded-full"
-                size="lg"
-              >
-                Add to Cart - ${calculatePrice().toFixed(2)}
-              </Button>
-            </div>
+            {/* Add to Cart Button */}
+            <Button
+              onClick={handleAddToCart}
+              className="w-full bg-[#d62828] hover:bg-[#b91c1c] text-white py-4 text-lg font-semibold rounded-full"
+              size="lg"
+            >
+              Add to Cart - ${calculatePrice().toFixed(2)}
+            </Button>
           </div>
         </div>
       </div>

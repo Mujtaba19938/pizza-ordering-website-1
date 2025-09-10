@@ -83,7 +83,6 @@ export default function MenuPage() {
               image={pizza.image}
               description={pizza.description}
               onClick={() => handlePizzaClick(pizza)}
-              showDrinks={true}
             />
           ))}
         </div>
