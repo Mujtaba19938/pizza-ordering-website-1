@@ -48,22 +48,20 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
   const [selectedCrust, setSelectedCrust] = useState("thin")
   const [selectedToppings, setSelectedToppings] = useState<string[]>([])
   const [quantity, setQuantity] = useState(1)
-  const [isVisible, setIsVisible] = useState(false)
-  const [shouldRender, setShouldRender] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
-      setShouldRender(true)
-      // Small delay to ensure the element is rendered before animation
-      setTimeout(() => setIsVisible(true), 10)
+      // Small delay to ensure smooth animation start
+      requestAnimationFrame(() => {
+        setIsAnimating(true)
+      })
     } else {
-      setIsVisible(false)
-      // Delay unmounting to allow closing animation
-      setTimeout(() => setShouldRender(false), 300)
+      setIsAnimating(false)
     }
   }, [isOpen])
 
-  if (!shouldRender) return null
+  if (!isOpen) return null
 
   const calculatePrice = () => {
     const basePrice = pizza.prices?.medium || pizza.price || 0
@@ -118,19 +116,21 @@ export function PopupProductCard({ pizza, isOpen, onClose }: PopupProductCardPro
 
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${
-      isVisible ? 'animate-modal-fade-in' : ''
+      isAnimating ? 'opacity-100' : 'opacity-0'
     }`}>
       {/* Backdrop */}
       <div 
-        className={`absolute inset-0 bg-black/50 backdrop-blur-sm ${
-          isVisible ? 'animate-modal-fade-in' : ''
+        className={`modal-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm ${
+          isAnimating ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={onClose}
       />
       
       {/* Popup Card */}
-      <div className={`relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto ${
-        isVisible ? 'animate-modal-slide-up' : ''
+      <div className={`modal-content relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto ${
+        isAnimating 
+          ? 'opacity-100 scale-100 translate-y-0' 
+          : 'opacity-0 scale-95 translate-y-4'
       }`}>
         {/* Close Button */}
         <button
