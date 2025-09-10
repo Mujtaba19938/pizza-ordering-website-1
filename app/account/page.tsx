@@ -41,13 +41,11 @@ export default function AccountPage() {
     // Remove all non-numeric characters
     const phoneNumber = value.replace(/\D/g, '')
     
-    // Format as (XXX) XXX-XXXX
+    // Format as XXX-XXX-XXXX (no initial brackets)
     if (phoneNumber.length >= 6) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`
+      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`
     } else if (phoneNumber.length >= 3) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`
-    } else if (phoneNumber.length > 0) {
-      return `(${phoneNumber}`
+      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`
     }
     return phoneNumber
   }
@@ -217,7 +215,7 @@ export default function AccountPage() {
                           value={userDetails.phone}
                           onChange={(e) => setUserDetails(prev => ({ ...prev, phone: formatPhoneNumber(e.target.value) }))}
                           className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-white focus:ring-white"
-                          maxLength={14}
+                          maxLength={12}
                         />
                       </div>
                     </div>
