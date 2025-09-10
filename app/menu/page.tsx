@@ -7,7 +7,7 @@ import { pizzas } from "@/data/pizzas"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 
-  const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty", "Desserts"]
+  const categories = ["All", "Classic", "Meat", "Vegetarian", "Specialty", "Desserts", "Drinks"]
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
