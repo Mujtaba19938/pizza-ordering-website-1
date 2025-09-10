@@ -65,15 +65,15 @@ export default function MenuPage() {
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPizzas.map((pizza) => (
-            <div key={pizza.id} onClick={() => handlePizzaClick(pizza)} className="cursor-pointer">
-              <ProductCard
-                id={pizza.id.toString()}
-                name={pizza.name}
-                price={pizza.prices.medium}
-                image={pizza.image}
-                description={pizza.description}
-              />
-            </div>
+            <ProductCard
+              key={pizza.id}
+              id={pizza.id.toString()}
+              name={pizza.name}
+              price={pizza.prices.medium}
+              image={pizza.image}
+              description={pizza.description}
+              onClick={() => handlePizzaClick(pizza)}
+            />
           ))}
         </div>
 

@@ -11,9 +11,10 @@ interface ProductCardProps {
   price: number
   image: string
   description?: string
+  onClick?: () => void
 }
 
-export function ProductCard({ id, name, price, image, description }: ProductCardProps) {
+export function ProductCard({ id, name, price, image, description, onClick }: ProductCardProps) {
   return (
     <Card className="group overflow-hidden rounded-2xl border-0 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <CardContent className="p-0">
@@ -30,11 +31,20 @@ export function ProductCard({ id, name, price, image, description }: ProductCard
           {description && <p className="text-gray-600 text-sm mb-3 line-clamp-2">{description}</p>}
           <div className="flex items-center justify-between">
             <span className="text-2xl font-bold text-[#d62828]">${price.toFixed(2)}</span>
-            <Link href={`/products/${id}`}>
-              <Button className="bg-[#d62828] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-full transition-colors duration-200">
+            {onClick ? (
+              <Button 
+                onClick={onClick}
+                className="bg-[#d62828] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-full transition-colors duration-200"
+              >
                 View Details
               </Button>
-            </Link>
+            ) : (
+              <Link href={`/products/${id}`}>
+                <Button className="bg-[#d62828] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-full transition-colors duration-200">
+                  View Details
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </CardContent>
