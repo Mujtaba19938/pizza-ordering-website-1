@@ -49,16 +49,11 @@ export function HeroSection() {
       {/* Banner Animation Layer - Only show on Tuesday and Thursday */}
       {showBanner && (
         <div className="banner-animation absolute top-0 left-0 w-full h-12 bg-[#ffbe0b] text-black z-20 overflow-hidden">
-          <div className="banner-scroll-container">
-            <div className="banner-text-track">
-              {/* Multiple repetitions for seamless infinite scroll */}
-              {Array.from({ length: 8 }, (_, i) => (
-                <span key={i} className="banner-text-item">
-                  <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
-                  <span>Deal : Buy one large pizza and get one large pizza free</span>
-                  <span className="banner-exclamation">!</span>
-                </span>
-              ))}
+          <div className="banner-content">
+            <div className="banner-text">
+              <span className="bg-black text-white px-3 py-1 rounded-full font-bold">Tuesday & Thursday</span>
+              <span>Deal : Buy one large pizza and get one large pizza free</span>
+              <span className="banner-exclamation">!</span>
             </div>
           </div>
         </div>
