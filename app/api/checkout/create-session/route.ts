@@ -3,10 +3,24 @@ import Stripe from "stripe";
 import { orderDB } from "@/lib/database/orders";
 import { OrderItem, Customer, Payment } from "@/lib/types/order";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-08-27.basil" });
+// Check for required environment variables
+if (!process.env.STRIPE_SECRET_KEY) {
+  console.error("STRIPE_SECRET_KEY is not set in environment variables");
+  throw new Error("Stripe configuration is missing. Please set STRIPE_SECRET_KEY in your environment variables.");
+}
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2025-08-27.basil" });
 
 export async function POST(req: NextRequest) {
   try {
+    // Check if Stripe is properly configured
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json(
+        { error: "Payment system is not configured. Please contact support." },
+        { status: 500 }
+      );
+    }
+
     const { cartItems, customer } = await req.json();
 
     // Server-side price validation (prevent tampering)
